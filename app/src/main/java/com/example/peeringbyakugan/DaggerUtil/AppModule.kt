@@ -3,6 +3,7 @@ package com.example.peeringbyakugan.DaggerUtil
 import com.example.peeringbyakugan.Network.Jikan
 import com.example.peeringbyakugan.Network.Network
 import com.example.peeringbyakugan.Network.Network.jikanIO
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -14,5 +15,6 @@ class AppModule {
     fun networkInterface(): Jikan{
         return jikanIO
     }
+
 
 }

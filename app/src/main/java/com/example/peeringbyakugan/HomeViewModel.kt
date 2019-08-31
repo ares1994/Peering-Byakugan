@@ -8,6 +8,7 @@ import com.example.peeringbyakugan.DaggerUtil.DaggerAppComponent
 import com.example.peeringbyakugan.Network.Jikan
 import com.example.peeringbyakugan.Network.SearchOnlyResponse
 import com.example.peeringbyakugan.Network.SearchOnlyResultsItem
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

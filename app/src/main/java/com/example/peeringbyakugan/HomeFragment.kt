@@ -6,6 +6,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.peeringbyakugan.Network.Network
@@ -18,6 +19,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var animeAdapter: AnimeRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,11 +30,17 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
+        animeAdapter = AnimeRecyclerAdapter()
 
         binding.animeListRecyclerView.apply {
-            adapter = AnimeRecyclerAdapter()
+            adapter = animeAdapter
             layoutManager = GridLayoutManager(this.context, 2)
         }
+
+        viewModel.currentAnimeList.observe(this, Observer {
+            animeAdapter.submitList(it)
+            binding.animeListProgressBar.visibility = View.INVISIBLE
+        })
 
 
         return binding.root
@@ -49,6 +57,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrBlank()) {
+            animeAdapter.submitList(null)
+            binding.animeListProgressBar.visibility = View.VISIBLE
             viewModel.queryJikanSearchOnly(query)
         }
         return false

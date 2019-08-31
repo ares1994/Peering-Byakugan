@@ -8,19 +8,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.peeringbyakugan.Network.SearchOnlyResultsItem
 import com.example.peeringbyakugan.databinding.ItemLayoutBinding
+import com.squareup.picasso.Picasso
 
-class AnimeRecyclerAdapter : RecyclerView.Adapter<AnimeRecyclerAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeRecyclerAdapter.ViewHolder {
+class AnimeRecyclerAdapter :
+    ListAdapter<SearchOnlyResultsItem, AnimeRecyclerAdapter.ViewHolder>(AnimeInstanceDiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
 
-    override fun getItemCount() = 5
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+        val item = getItem(position)
+        holder.bind(item)
 
     }
 
@@ -30,31 +34,34 @@ class AnimeRecyclerAdapter : RecyclerView.Adapter<AnimeRecyclerAdapter.ViewHolde
         val animeImageView: ImageView = itemView.findViewById(R.id.animeImageView)
 
 
-
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding: ItemLayoutBinding = DataBindingUtil.inflate(layoutInflater,R.layout.item_layout,parent,false)
+                val binding: ItemLayoutBinding =
+                    DataBindingUtil.inflate(layoutInflater, R.layout.item_layout, parent, false)
                 return ViewHolder(binding.root)
             }
         }
 
-        fun bind() {
-            animeImageView.setImageResource(R.drawable.test)
-            animeTextView.text = "Naruto"
+        fun bind(item: SearchOnlyResultsItem) {
+
+            Picasso.get().load(item.imageUrl).into(animeImageView)
+//            animeImageView.setImageResource(R.drawable.test)
+            animeTextView.text = item.title
         }
     }
 
 }
 
 
-class AnimeInstanceDiffCallback : DiffUtil.ItemCallback<String>(){
-    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class AnimeInstanceDiffCallback : DiffUtil.ItemCallback<SearchOnlyResultsItem>() {
+    override fun areItemsTheSame(oldItem: SearchOnlyResultsItem, newItem: SearchOnlyResultsItem): Boolean {
+        return oldItem.malId == newItem.malId
     }
 
-    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun areContentsTheSame(oldItem: SearchOnlyResultsItem, newItem: SearchOnlyResultsItem): Boolean {
+        return oldItem == newItem
     }
+
 
 }

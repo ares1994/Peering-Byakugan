@@ -294,5 +294,12 @@
                                                    app:layout_constraintEnd_toEndOf="parent"/>
 
 
+        <ProgressBar android:layout_width="42dp" android:layout_height="42dp"
+                     app:layout_constraintTop_toTopOf="@id/animeListRecyclerView"
+                     app:layout_constraintStart_toStartOf="@id/animeListRecyclerView"
+                     app:layout_constraintBottom_toBottomOf="@id/animeListRecyclerView"
+                     app:layout_constraintEnd_toEndOf="@id/animeListRecyclerView"
+                     android:visibility="invisible"
+                     android:id="@+id/animeListProgressBar"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
