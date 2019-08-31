@@ -35,8 +35,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
 
-        viewModel.networkTest()
-
         return binding.root
     }
 
@@ -50,11 +48,14 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (!query.isNullOrBlank()) {
+            viewModel.queryJikanSearchOnly(query)
+        }
+        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return true
     }
 
 
