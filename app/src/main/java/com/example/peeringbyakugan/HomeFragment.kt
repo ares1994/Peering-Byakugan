@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
-
+    private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -26,7 +26,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        val viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
 
         binding.animeListRecyclerView.apply {
@@ -34,6 +34,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             layoutManager = GridLayoutManager(this.context, 2)
         }
 
+
+        viewModel.networkTest()
 
         return binding.root
     }
