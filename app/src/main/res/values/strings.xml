@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Peering Byakugan</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action">Action</string>
+    <string name="adventure">Adventure</string>
+    <string name="cars">Cars</string>
+    <string name="comedy">Comedy</string>
+    <string name="dementia">Dementia</string>
+    <string name="demons">Demons</string>
+    <string name="mystery">Mystery</string>
+    <string name="drama">Drama</string>
+    <string name="ecchi">Ecchi</string>
+    <string name="fantasy">Fantasy</string>
+    <string name="game">Game</string>
+    <string name="hentai">Hentai</string>
+    <string name="martial_arts">Martial Arts</string>
+    <string name="magic">Magic</string>
+    <string name="kids">Kids</string>
+    <string name="horror">Horror</string>
+    <string name="historical">Historical</string>
+    <string name="romance">Romance</string>
+    <string name="samurai">Samurai</string>
+    <string name="parody">Parody</string>
+    <string name="music">Music</string>
+    <string name="mecha">Mecha</string>
+    <string name="shounen_ai">Shounen Ai</string>
+    <string name="shounen">Shounen</string>
+    <string name="shoujo_ai">Shoujo Ai</string>
+    <string name="shoujo">Shoujo</string>
+    <string name="sci_fi">Sci Fi</string>
+    <string name="school">School</string>
+    <string name="josei">Josei</string>
+    <string name="seinen">Seinen</string>
+    <string name="thriller">Thriller</string>
+    <string name="psycological">Psycological</string>
+    <string name="police">Police</string>
+    <string name="military">Military</string>
+    <string name="supernatural">Supernatural</string>
+    <string name="slice_of_life">Slice of Life</string>
+    <string name="harem">Harem</string>
+    <string name="yuri">Yuri</string>
+    <string name="yaoi">Yaoi</string>
+    <string name="vampire">Vampire</string>
+    <string name="super_power">Super Power</string>
+    <string name="sports">Sports</string>
+    <string name="space">Space</string>
+    <string name="action_search">Search</string>
+</resources>
