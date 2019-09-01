@@ -10,15 +10,16 @@ import retrofit2.http.Query
 
 interface Jikan {
     @GET("search/anime")
-    fun getAnimeUsingOnlySearch(
-        @Query("q") query: String
+    fun getAnimeAsync(
+        @Query("q") query: String,
+        @Query("genre") genre: String
     ): Deferred<SearchOnlyResponse>
 }
 
 
 
 /**
- * Main entry point for network access. Call like `Network.jikanIO.getAnimeUsingOnlySearch`
+ * Main entry point for network access. Call like `Network.jikanIO.getAnimeAsync`
  */
 object Network {
     // Configure retrofit to parse JSON and use coroutines
