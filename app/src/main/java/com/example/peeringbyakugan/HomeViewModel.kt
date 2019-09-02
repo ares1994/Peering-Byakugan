@@ -1,6 +1,7 @@
 package com.example.peeringbyakugan
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.peeringbyakugan.daggerUtil.DaggerAppComponent
@@ -19,12 +20,16 @@ class HomeViewModel : ViewModel() {
     private val _currentAnimeList = MutableLiveData<List<SearchOnlyResultsItem>>()
     val currentAnimeList: MutableLiveData<List<SearchOnlyResultsItem>> get() = _currentAnimeList
 
+    private val _animeRetrievalAttemptCompleted = MutableLiveData<Boolean>()
+    val animeRetrievalAttemptCompleted : LiveData<Boolean> get() = _animeRetrievalAttemptCompleted
+
     @Inject lateinit var jikanIO: Jikan
 
     private val appComponent = DaggerAppComponent.create()
 
     init {
         appComponent.inject(this)
+        _animeRetrievalAttemptCompleted.value = true
     }
 
 
@@ -39,9 +44,21 @@ class HomeViewModel : ViewModel() {
 
             } catch (t: Throwable) {
                 Log.d("HomeViewModel", "${t.message}")
+                progressBarInvisible()
             }
         }
     }
+
+    fun progressBarVisible(){
+        _animeRetrievalAttemptCompleted.value = false
+    }
+
+
+    fun progressBarInvisible(){
+        _animeRetrievalAttemptCompleted.value = true
+    }
+
+
 
 
 }

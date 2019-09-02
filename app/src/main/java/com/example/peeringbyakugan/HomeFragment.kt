@@ -41,9 +41,17 @@ class HomeFragment : Fragment() {
 
         viewModel.currentAnimeList.observe(this, Observer {
             animeAdapter.submitList(it)
-            binding.animeListProgressBar.visibility = View.INVISIBLE
+            viewModel.progressBarInvisible()
         })
 
+
+        viewModel.animeRetrievalAttemptCompleted.observe(this, Observer {
+            if (it) {
+                binding.animeListProgressBar.visibility = View.INVISIBLE
+            } else {
+                binding.animeListProgressBar.visibility = View.VISIBLE
+            }
+        })
 
         return binding.root
     }
@@ -65,7 +73,7 @@ class HomeFragment : Fragment() {
                 }
 
                 animeAdapter.submitList(null)
-                binding.animeListProgressBar.visibility = View.VISIBLE
+                viewModel.progressBarVisible()
                 viewModel.queryJikanSearchAndFilter(query!!, genreList)
                 searchView.clearFocus()
                 return false
