@@ -1,4 +1,4 @@
-package com.example.peeringbyakugan.Network
+package com.example.peeringbyakugan.network
 
 
 import com.google.gson.annotations.SerializedName

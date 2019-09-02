@@ -1,16 +1,12 @@
 package com.example.peeringbyakugan
 
-import android.text.Layout
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.peeringbyakugan.Network.SearchOnlyResultsItem
+import com.example.peeringbyakugan.network.SearchOnlyResultsItem
 import com.example.peeringbyakugan.databinding.ItemLayoutBinding
 import com.squareup.picasso.Picasso
 
@@ -29,9 +25,8 @@ class AnimeRecyclerAdapter :
     }
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val animeTextView: TextView = itemView.findViewById(R.id.animeTitle)
-        val animeImageView: ImageView = itemView.findViewById(R.id.animeImageView)
+    class ViewHolder private constructor(private val binding: ItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
 
         companion object {
@@ -39,15 +34,15 @@ class AnimeRecyclerAdapter :
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding: ItemLayoutBinding =
                     DataBindingUtil.inflate(layoutInflater, R.layout.item_layout, parent, false)
-                return ViewHolder(binding.root)
+                return ViewHolder(binding)
             }
         }
 
         fun bind(item: SearchOnlyResultsItem) {
-
-            Picasso.get().load(item.imageUrl).into(animeImageView)
-//            animeImageView.setImageResource(R.drawable.test)
-            animeTextView.text = item.title
+//            Picasso.get().load(item.imageUrl).into(binding.animeImageView)
+//            binding.animeTitle.text = item.title
+            binding.searchAnime = item
+            binding.executePendingBindings()
         }
     }
 

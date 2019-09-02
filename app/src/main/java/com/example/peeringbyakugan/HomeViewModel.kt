@@ -3,10 +3,10 @@ package com.example.peeringbyakugan
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.peeringbyakugan.DaggerUtil.DaggerAppComponent
-import com.example.peeringbyakugan.Network.Jikan
-import com.example.peeringbyakugan.Network.SearchOnlyResponse
-import com.example.peeringbyakugan.Network.SearchOnlyResultsItem
+import com.example.peeringbyakugan.daggerUtil.DaggerAppComponent
+import com.example.peeringbyakugan.network.Jikan
+import com.example.peeringbyakugan.network.SearchOnlyResponse
+import com.example.peeringbyakugan.network.SearchOnlyResultsItem
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.example.peeringbyakugan.DaggerUtil
+package com.example.peeringbyakugan.daggerUtil
 
 import com.example.peeringbyakugan.HomeViewModel
 import dagger.Component

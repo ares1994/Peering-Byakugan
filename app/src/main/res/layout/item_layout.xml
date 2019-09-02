@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <variable name="searchAnime" type="com.example.peeringbyakugan.network.SearchOnlyResultsItem"/>
 
     </data>
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
@@ -19,6 +20,7 @@
                        android:id="@+id/animeImageView"
                        app:layout_constraintStart_toStartOf="parent"
                        app:layout_constraintEnd_toEndOf="parent"
+                       setAnimeImage="@{searchAnime}"
                        app:layout_constraintTop_toTopOf="parent"
                        app:layout_constraintDimensionRatio="225:334"/>
 
@@ -30,6 +32,7 @@
                       tools:text="We the best"
                       android:textAppearance="?android:textAppearanceMedium"
                       android:id="@+id/animeTitle"
+                      setAnimeTitle="@{searchAnime}"
                       app:layout_constraintTop_toBottomOf="@id/animeImageView"
                       android:fontFamily="@font/roboto_italic"/>
 

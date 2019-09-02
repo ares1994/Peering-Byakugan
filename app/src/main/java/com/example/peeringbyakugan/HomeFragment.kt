@@ -8,13 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.peeringbyakugan.Network.Network
 import com.example.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.coroutines.Dispatchers
+import com.google.android.material.snackbar.Snackbar
 
 
 class HomeFragment : Fragment() {
@@ -36,7 +33,7 @@ class HomeFragment : Fragment() {
 
         binding.animeListRecyclerView.apply {
             adapter = animeAdapter
-            layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
 
         viewModel.currentAnimeList.observe(this, Observer {
@@ -55,17 +52,19 @@ class HomeFragment : Fragment() {
         val menuItem = menu.findItem(R.id.app_bar_search)
         val searchView = menuItem.actionView as AnimeSearchView
         searchView.queryHint = getString(R.string.search_query_hint)
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val genreList = checkChipGroup()
-                if (query.isNullOrBlank() && genreList.isBlank()){
+                if (query.isNullOrBlank() && genreList.isBlank()) {
+                    Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
+                    searchView.clearFocus()
                     return true
                 }
 
-                    animeAdapter.submitList(null)
-                    binding.animeListProgressBar.visibility = View.VISIBLE
-                    viewModel.queryJikanSearchAndFilter(query!!,genreList)
-
+                animeAdapter.submitList(null)
+                binding.animeListProgressBar.visibility = View.VISIBLE
+                viewModel.queryJikanSearchAndFilter(query!!, genreList)
+                searchView.clearFocus()
                 return false
             }
 
