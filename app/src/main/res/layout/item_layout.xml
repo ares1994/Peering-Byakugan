@@ -3,6 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="searchAnime" type="com.example.peeringbyakugan.network.SearchOnlyResultsItem"/>
+        <variable name="clickListener" type="com.example.peeringbyakugan.AnimeClickListener"/>
 
     </data>
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
@@ -10,7 +11,8 @@
                                        android:padding="8dp"
                                        android:layout_margin="4dp"
                                        app:cardCornerRadius="8dp"
-                                       app:cardElevation="8dp">
+                                       app:cardElevation="8dp"
+    android:onClick="@{()-> clickListener.onClick(searchAnime)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -34,7 +36,8 @@
                       android:id="@+id/animeTitle"
                       setAnimeTitle="@{searchAnime}"
                       app:layout_constraintTop_toBottomOf="@id/animeImageView"
-                      android:fontFamily="@font/roboto_italic"/>
+                      android:fontFamily="@font/roboto_italic"
+                      android:textColor="#000"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

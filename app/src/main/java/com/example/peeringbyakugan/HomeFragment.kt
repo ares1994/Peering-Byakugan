@@ -3,6 +3,7 @@ package com.example.peeringbyakugan
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -29,7 +30,9 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
-        animeAdapter = AnimeRecyclerAdapter()
+        animeAdapter = AnimeRecyclerAdapter(AnimeClickListener {
+            Toast.makeText(this.context, "$it", Toast.LENGTH_LONG).show()
+        })
 
         binding.animeListRecyclerView.apply {
             adapter = animeAdapter

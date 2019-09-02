@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.peeringbyakugan.network.SearchOnlyResultsItem
 import com.example.peeringbyakugan.databinding.ItemLayoutBinding
-import com.squareup.picasso.Picasso
 
-class AnimeRecyclerAdapter :
+class AnimeRecyclerAdapter (val clickListener: AnimeClickListener):
     ListAdapter<SearchOnlyResultsItem, AnimeRecyclerAdapter.ViewHolder>(AnimeInstanceDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -19,8 +18,9 @@ class AnimeRecyclerAdapter :
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+//        val item = getItem(position)
+//        holder.bind(item)
+        holder.bind(getItem(position), clickListener)
 
     }
 
@@ -38,9 +38,13 @@ class AnimeRecyclerAdapter :
             }
         }
 
-        fun bind(item: SearchOnlyResultsItem) {
+        fun bind(
+            item: SearchOnlyResultsItem,
+            clickListener: AnimeClickListener
+        ) {
 //            Picasso.get().load(item.imageUrl).into(binding.animeImageView)
 //            binding.animeTitle.text = item.title
+            binding.clickListener = clickListener
             binding.searchAnime = item
             binding.executePendingBindings()
         }
@@ -59,4 +63,9 @@ class AnimeInstanceDiffCallback : DiffUtil.ItemCallback<SearchOnlyResultsItem>()
     }
 
 
+}
+
+
+class AnimeClickListener(val clickListener: (animeId: Int) -> Unit){
+    fun onClick(anime: SearchOnlyResultsItem) = clickListener(anime.malId!!)
 }
