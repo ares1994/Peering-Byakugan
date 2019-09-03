@@ -10,30 +10,60 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.peeringbyakugan.databinding.FragmentDetailsBinding
+import com.squareup.picasso.Picasso
 
 
 class DetailsFragment : Fragment() {
 
 
     private lateinit var binding: FragmentDetailsBinding
+    private lateinit var viewModel: DetailsViewModel
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+
+        val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
-
-        (activity as AppCompatActivity).supportActionBar!!.hide()
-
+        viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
+        viewModel.queryJikanForAnime(args!!.animeId)
         binding.youtubeWebView.apply {
             settings.javaScriptEnabled = true
             webChromeClient = WebChromeClient()
-            loadUrl("https://www.youtube.com/embed/j2hiC9BmJlQ?enablejsapi=1&wmode=opaque&autoplay=1")
+            webViewClient = AnimeWebViewClient(binding.trailerLoadingProgressBar)
 
-            //loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/K4hy46Y-Cf8?enablejsapi=1&wmode=opaque&autoplay=1\" frameborder=\"0\" allowfullscreen></iframe>","text/html","utf-8")
+
         }
+
+        viewModel.currentAnime.observe(this, Observer {
+            if (it.trailerUrl.isNullOrBlank()) {
+                binding.youtubeWebView.visibility = View.GONE
+                binding.animeImageView.apply {
+                    visibility = View.VISIBLE
+                    Picasso.get().load(it.imageUrl).into(this)
+                    binding.trailerLoadingProgressBar.visibility = View.INVISIBLE
+                }
+            } else {
+                binding.youtubeWebView.loadUrl(it.trailerUrl)
+            }
+            if (it.titleEnglish.isNullOrBlank()) {
+                (activity as AppCompatActivity).title = it.title
+
+            } else {
+                (activity as AppCompatActivity).title = it.titleEnglish
+
+            }
+
+
+        })
+
+
 
         return binding.root
     }

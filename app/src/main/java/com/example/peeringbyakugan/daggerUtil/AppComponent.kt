@@ -1,5 +1,6 @@
 package com.example.peeringbyakugan.daggerUtil
 
+import com.example.peeringbyakugan.DetailsViewModel
 import com.example.peeringbyakugan.HomeViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -10,5 +11,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(viewModel: HomeViewModel)
+
+    fun inject(viewModel: DetailsViewModel)
 
 }

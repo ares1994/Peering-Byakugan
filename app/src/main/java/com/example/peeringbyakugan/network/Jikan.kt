@@ -1,24 +1,32 @@
 package com.example.peeringbyakugan.network
 
+import com.example.peeringbyakugan.detailsData.SingleAnimeResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Jikan {
     @GET("search/anime")
-    fun getAnimeAsync(
+    fun getAnimeListAsync(
         @Query("q") query: String,
         @Query("genre") genre: String
     ): Deferred<SearchOnlyResponse>
+
+
+    @GET("anime/{animeId}")
+    fun getAnimeAsync(
+        @Path("animeId") animeId : Int
+    ) : Deferred<SingleAnimeResponse>
 }
 
 
 
 /**
- * Main entry point for network access. Call like `Network.jikanIO.getAnimeAsync`
+ * Main entry point for network access. Call like `Network.jikanIO.getAnimeListAsync`
  */
 object Network {
     // Configure retrofit to parse JSON and use coroutines

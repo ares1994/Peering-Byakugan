@@ -4,11 +4,14 @@ package com.example.peeringbyakugan
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
@@ -25,13 +28,13 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        (activity as AppCompatActivity).title = ""
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
         animeAdapter = AnimeRecyclerAdapter(AnimeClickListener {
-            Toast.makeText(this.context, "$it", Toast.LENGTH_LONG).show()
+            this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it))
         })
 
         binding.animeListRecyclerView.apply {
