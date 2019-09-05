@@ -5,10 +5,11 @@
 
     </data>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="16dp"
                 tools:context=".DetailsFragment" tools:ignore="ScrollViewSize">
 
             <WebView android:layout_width="0dp" android:layout_height="240dp"
@@ -38,6 +39,7 @@
                                                app:layout_constraintStart_toStartOf="parent"
                                                app:layout_constraintEnd_toEndOf="parent"
                                                app:cardCornerRadius="8dp"
+                                               android:id="@+id/synopsisCardView"
                                                app:cardElevation="4dp"
                                                android:layout_margin="16dp">
 
@@ -49,6 +51,28 @@
                           android:id="@+id/synopsisTextView"/>
 
             </androidx.cardview.widget.CardView>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      app:layout_constraintStart_toStartOf="parent"
+                      android:id="@+id/episodesTextView"
+                      android:layout_marginTop="16dp"
+                      app:layout_constraintTop_toBottomOf="@id/statusTextView"
+                      app:layout_constraintHorizontal_bias="0.5"
+                      android:textSize="16sp"
+                      android:fontFamily="@font/roboto_italic"
+                      android:textColor="@color/colorPrimaryDark"
+                      app:layout_constraintEnd_toStartOf="@+id/statusTextView"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      android:id="@+id/statusTextView"
+                      android:textColor="@color/colorPrimaryDark"
+                      android:layout_marginTop="16dp"
+                      android:fontFamily="@font/roboto_italic"
+                      android:textSize="16sp"
+                      app:layout_constraintTop_toBottomOf="@id/synopsisCardView"
+                      app:layout_constraintStart_toEndOf="@+id/episodesTextView"
+                      app:layout_constraintHorizontal_bias="0.5"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

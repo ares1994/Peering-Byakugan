@@ -1,7 +1,9 @@
 package com.example.peeringbyakugan
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,25 +26,38 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var animeAdapter: AnimeRecyclerAdapter
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.d("HomeFragment", "OnCreate called")
         (activity as AppCompatActivity).title = ""
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
-        animeAdapter = AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle->
-            this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(animeId, animeTitle))
+
+
+        animeAdapter = AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle ->
+            this.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(animeId, animeTitle))
         })
 
         binding.animeListRecyclerView.apply {
             adapter = animeAdapter
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
         }
 
         viewModel.currentAnimeList.observe(this, Observer {
+            if (it.isNullOrEmpty()) {
+                binding.errorView.visibility = View.VISIBLE
+                binding.errorTextView.text = getString(R.string.none_found_error_message)
+            } else {
+                binding.errorView.visibility = View.INVISIBLE
+            }
             animeAdapter.submitList(it)
             viewModel.progressBarInvisible()
         })
@@ -75,6 +90,7 @@ class HomeFragment : Fragment() {
                     return true
                 }
 
+                binding.errorView.visibility = View.INVISIBLE
                 animeAdapter.submitList(null)
                 viewModel.progressBarVisible()
                 viewModel.queryJikanSearchAndFilter(query!!, genreList)
@@ -109,6 +125,8 @@ class HomeFragment : Fragment() {
         return genreList
 
     }
+
+
 
 
 }

@@ -47,6 +47,10 @@
     <string name="sports">Sports</string>
     <string name="space">Space</string>
     <string name="action_search">Search</string>
-    <string name="search_query_hint">Must be at least 3 characters</string>
+    <string name="search_query_hint">Should be at least 3 characters</string>
     <string name="synopsis">Synopsis: \n\n\t%s</string>
+    <string name="none_found_error_message">Sorry, there are no anime that\nmatch your specified criteria</string>
+    <string name="initial_message">Give it a whirl!</string>
+    <string name="episodes">No of episodes: %s</string>
+    <string name="status">Current status: %s</string>
 </resources>

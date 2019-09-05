@@ -3,6 +3,7 @@ package com.example.peeringbyakugan
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,8 +44,13 @@ class DetailsFragment : Fragment() {
         }
 
         viewModel.currentAnime.observe(this, Observer {
+
+            //            Log.d("DetailsFragment", "${it.episodes} & ${it.status}")
+            binding.episodesTextView.text = getString(R.string.episodes, it.episodes.toString())
+            binding.statusTextView.text = getString(R.string.status, it.status)
+
             if (it.trailerUrl.isNullOrBlank()) {
-                binding.youtubeWebView.visibility = View.GONE
+                binding.youtubeWebView.visibility = View.INVISIBLE
                 binding.animeImageView.apply {
                     visibility = View.VISIBLE
                     Picasso.get().load(it.imageUrl).into(this)
@@ -54,11 +60,12 @@ class DetailsFragment : Fragment() {
                 binding.youtubeWebView.loadUrl(it.trailerUrl)
             }
 
-            binding.synopsisTextView.text = getString(R.string.synopsis,it.synopsis)
+            binding.synopsisTextView.text = getString(R.string.synopsis, it.synopsis)
 
             (activity as AppCompatActivity).apply {
                 if (title.isNullOrBlank()) title = it.titleEnglish
             }
+
 
         })
 
