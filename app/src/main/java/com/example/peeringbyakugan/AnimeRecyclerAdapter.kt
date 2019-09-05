@@ -66,6 +66,6 @@ class AnimeInstanceDiffCallback : DiffUtil.ItemCallback<SearchOnlyResultsItem>()
 }
 
 
-class AnimeClickListener(val clickListener: (animeId: Int) -> Unit){
-    fun onClick(anime: SearchOnlyResultsItem) = clickListener(anime.malId!!)
+class AnimeClickListener(val clickListener: (animeId: Int, animeTitle : String) -> Unit){
+    fun onClick(anime: SearchOnlyResultsItem) = clickListener(anime.malId!!, anime.title!!)
 }

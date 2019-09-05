@@ -4,29 +4,53 @@
     <data>
 
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".DetailsFragment">
 
-        <WebView android:layout_width="0dp" android:layout_height="240dp"
-                 android:id="@+id/youtubeWebView"
-                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintTop_toTopOf="parent"/>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".DetailsFragment" tools:ignore="ScrollViewSize">
 
-        <ImageView android:layout_width="0dp" android:layout_height="240dp"
-                   android:id="@+id/animeImageView"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   android:visibility="invisible"
-                   android:scaleType="fitCenter"
-                   app:layout_constraintTop_toTopOf="parent"
-        />
-        <ProgressBar android:layout_width="42dp" android:layout_height="42dp"
-                     app:layout_constraintTop_toTopOf="@id/youtubeWebView"
-                     app:layout_constraintStart_toStartOf="@id/youtubeWebView"
-                     app:layout_constraintEnd_toEndOf="@id/youtubeWebView"
-                     android:id="@+id/trailerLoadingProgressBar"
-                     app:layout_constraintBottom_toBottomOf="@id/youtubeWebView"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <WebView android:layout_width="0dp" android:layout_height="240dp"
+                     android:id="@+id/youtubeWebView"
+                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView android:layout_width="0dp" android:layout_height="240dp"
+                       android:id="@+id/animeImageView"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       android:visibility="invisible"
+                       android:scaleType="fitCenter"
+                       app:layout_constraintTop_toTopOf="parent"
+            />
+            <ProgressBar android:layout_width="42dp" android:layout_height="42dp"
+                         app:layout_constraintTop_toTopOf="@id/youtubeWebView"
+                         app:layout_constraintStart_toStartOf="@id/youtubeWebView"
+                         app:layout_constraintEnd_toEndOf="@id/youtubeWebView"
+                         android:id="@+id/trailerLoadingProgressBar"
+                         app:layout_constraintBottom_toBottomOf="@id/youtubeWebView"/>
+
+
+            <androidx.cardview.widget.CardView android:layout_width="0dp"
+                                               android:layout_height="wrap_content"
+                                               app:layout_constraintTop_toBottomOf="@id/youtubeWebView"
+                                               app:layout_constraintStart_toStartOf="parent"
+                                               app:layout_constraintEnd_toEndOf="parent"
+                                               app:cardCornerRadius="8dp"
+                                               app:cardElevation="4dp"
+                                               android:layout_margin="16dp">
+
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:layout_margin="8dp"
+                          android:textColor="@android:color/black"
+                          android:textAppearance="?android:textAppearanceSmall"
+                          android:id="@+id/synopsisTextView"/>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 </layout>

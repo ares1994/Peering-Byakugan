@@ -30,6 +30,7 @@ class DetailsFragment : Fragment() {
 
         val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
 
+        (activity as AppCompatActivity).title = args?.animeTitle
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
         viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
         viewModel.queryJikanForAnime(args!!.animeId)
@@ -52,14 +53,12 @@ class DetailsFragment : Fragment() {
             } else {
                 binding.youtubeWebView.loadUrl(it.trailerUrl)
             }
-            if (it.titleEnglish.isNullOrBlank()) {
-                (activity as AppCompatActivity).title = it.title
 
-            } else {
-                (activity as AppCompatActivity).title = it.titleEnglish
+            binding.synopsisTextView.text = getString(R.string.synopsis,it.synopsis)
 
+            (activity as AppCompatActivity).apply {
+                if (title.isNullOrBlank()) title = it.titleEnglish
             }
-
 
         })
 

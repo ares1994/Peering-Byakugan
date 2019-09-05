@@ -33,8 +33,8 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
-        animeAdapter = AnimeRecyclerAdapter(AnimeClickListener {
-            this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it))
+        animeAdapter = AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle->
+            this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(animeId, animeTitle))
         })
 
         binding.animeListRecyclerView.apply {

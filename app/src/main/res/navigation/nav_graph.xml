@@ -11,5 +11,6 @@
     <fragment android:id="@+id/detailsFragment" android:name="com.example.peeringbyakugan.DetailsFragment"
     >
         <argument android:name="animeId" app:argType="integer"/>
+        <argument android:name="animeTitle" app:argType="string"/>
     </fragment>
 </navigation>
