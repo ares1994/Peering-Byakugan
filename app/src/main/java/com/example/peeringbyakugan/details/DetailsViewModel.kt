@@ -1,10 +1,10 @@
-package com.example.peeringbyakugan
+package com.example.peeringbyakugan.details
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.peeringbyakugan.daggerUtil.DaggerAppComponent
+import com.example.peeringbyakugan.daggerUtil.AppComponent
 import com.example.peeringbyakugan.detailsData.SingleAnimeResponse
 import com.example.peeringbyakugan.network.Jikan
 import com.example.peeringbyakugan.network.SearchOnlyResponse
@@ -15,7 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DetailsViewModel : ViewModel() {
+class DetailsViewModel(appComponent: AppComponent) : ViewModel() {
 
     private var viewModelJob = Job()
     private var scope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -24,7 +24,6 @@ class DetailsViewModel : ViewModel() {
     private val _currentAnime = MutableLiveData<SingleAnimeResponse>()
     val currentAnime: LiveData<SingleAnimeResponse> get() = _currentAnime
 
-    private val appComponent = DaggerAppComponent.create()
 
     @Inject
     lateinit var jikanIO: Jikan

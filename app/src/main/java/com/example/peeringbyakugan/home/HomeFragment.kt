@@ -1,25 +1,24 @@
-package com.example.peeringbyakugan
+package com.example.peeringbyakugan.home
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.peeringbyakugan.*
 import com.example.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 
 class HomeFragment : Fragment() {
@@ -29,25 +28,40 @@ class HomeFragment : Fragment() {
     private lateinit var animeAdapter: AnimeRecyclerAdapter
 
 
+    @Inject
+    lateinit var cm: ConnectivityManager
+
+
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        val appComponent = ((this.activity!!.application) as ByakuganApplication).getAppComponent()
+        appComponent.inject(this)
         Log.d("HomeFragment", "OnCreate called")
         (activity as AppCompatActivity).title = ""
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        val viewModelFactory =
+            HomeViewModelFactory(appComponent)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
 
 
 
-        animeAdapter = AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle ->
-            this.findNavController()
-                .navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(animeId, animeTitle))
-        })
+        animeAdapter =
+            AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle ->
+                this.findNavController()
+                    .navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                            animeId,
+                            animeTitle
+                        )
+                    )
+            })
 
         binding.animeListRecyclerView.apply {
             adapter = animeAdapter
@@ -88,8 +102,6 @@ class HomeFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                val cm =
-                    this@HomeFragment.context!!.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 if (cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected) {
                     val genreList = checkChipGroup()
                     if (query.isNullOrBlank() && genreList.isBlank()) {
@@ -107,6 +119,7 @@ class HomeFragment : Fragment() {
                 }
                 binding.errorTextView.text = getString(R.string.error_internet)
                 binding.errorView.visibility = View.VISIBLE
+                animeAdapter.submitList(null)
                 return true
 
 

@@ -10,7 +10,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
-                tools:context=".DetailsFragment" tools:ignore="ScrollViewSize">
+                tools:context=".details.DetailsFragment" tools:ignore="ScrollViewSize">
 
             <WebView android:layout_width="0dp" android:layout_height="240dp"
                      android:id="@+id/youtubeWebView"

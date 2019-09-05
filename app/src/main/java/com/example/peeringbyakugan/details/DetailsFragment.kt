@@ -1,9 +1,8 @@
-package com.example.peeringbyakugan
+package com.example.peeringbyakugan.details
 
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.peeringbyakugan.AnimeWebViewClient
+import com.example.peeringbyakugan.ByakuganApplication
+import com.example.peeringbyakugan.DetailsFragmentArgs
+import com.example.peeringbyakugan.R
 import com.example.peeringbyakugan.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
 
@@ -30,17 +33,20 @@ class DetailsFragment : Fragment() {
 
 
         val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
-
+        val appComponent = ((this.activity!!.application) as ByakuganApplication).getAppComponent()
         (activity as AppCompatActivity).title = args?.animeTitle
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
-        viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_details, container, false)
+        val viewModelFactory =
+            DetailsViewModelFactory(appComponent)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailsViewModel::class.java)
+
         viewModel.queryJikanForAnime(args!!.animeId)
+
         binding.youtubeWebView.apply {
             settings.javaScriptEnabled = true
             webChromeClient = WebChromeClient()
             webViewClient = AnimeWebViewClient(binding.trailerLoadingProgressBar)
-
-
         }
 
         viewModel.currentAnime.observe(this, Observer {
