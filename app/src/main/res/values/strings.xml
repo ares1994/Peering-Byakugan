@@ -53,4 +53,7 @@
     <string name="initial_message">Give it a whirl!</string>
     <string name="episodes">No of episodes: %s</string>
     <string name="status">Current status: %s</string>
+    <string name="ratings">Rating: %s</string>
+    <string name="premier_date">Premiered: %s</string>
+    <string name="error_internet">Please check your internet connection</string>
 </resources>

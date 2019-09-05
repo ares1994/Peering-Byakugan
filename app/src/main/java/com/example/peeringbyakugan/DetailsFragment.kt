@@ -45,9 +45,14 @@ class DetailsFragment : Fragment() {
 
         viewModel.currentAnime.observe(this, Observer {
 
-            //            Log.d("DetailsFragment", "${it.episodes} & ${it.status}")
+
+            binding.premierDateTextView.text =
+                if (it.premiered.isNullOrBlank()) getString(R.string.premier_date, it.aired!!.string)
+                else getString(R.string.premier_date, it.premiered)
+            binding.ratingsTextView.text = getString(R.string.ratings, it.score.toString())
             binding.episodesTextView.text = getString(R.string.episodes, it.episodes.toString())
             binding.statusTextView.text = getString(R.string.status, it.status)
+
 
             if (it.trailerUrl.isNullOrBlank()) {
                 binding.youtubeWebView.visibility = View.INVISIBLE

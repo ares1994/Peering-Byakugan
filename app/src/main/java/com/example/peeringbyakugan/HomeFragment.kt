@@ -2,6 +2,8 @@ package com.example.peeringbyakugan
 
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -26,6 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var animeAdapter: AnimeRecyclerAdapter
 
+
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,7 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+
 
 
 
@@ -83,19 +87,29 @@ class HomeFragment : Fragment() {
         searchView.queryHint = getString(R.string.search_query_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                val genreList = checkChipGroup()
-                if (query.isNullOrBlank() && genreList.isBlank()) {
-                    Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
+
+                val cm =
+                    this@HomeFragment.context!!.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                if (cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected) {
+                    val genreList = checkChipGroup()
+                    if (query.isNullOrBlank() && genreList.isBlank()) {
+                        Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
+                        searchView.clearFocus()
+                        return false
+                    }
+
+                    binding.errorView.visibility = View.INVISIBLE
+                    animeAdapter.submitList(null)
+                    viewModel.progressBarVisible()
+                    viewModel.queryJikanSearchAndFilter(query!!, genreList)
                     searchView.clearFocus()
                     return true
                 }
+                binding.errorTextView.text = getString(R.string.error_internet)
+                binding.errorView.visibility = View.VISIBLE
+                return true
 
-                binding.errorView.visibility = View.INVISIBLE
-                animeAdapter.submitList(null)
-                viewModel.progressBarVisible()
-                viewModel.queryJikanSearchAndFilter(query!!, genreList)
-                searchView.clearFocus()
-                return false
+
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -125,8 +139,6 @@ class HomeFragment : Fragment() {
         return genreList
 
     }
-
-
 
 
 }
