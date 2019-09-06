@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.peeringbyakugan.AnimeWebViewClient
 import com.example.peeringbyakugan.ByakuganApplication
-import com.example.peeringbyakugan.DetailsFragmentArgs
 import com.example.peeringbyakugan.R
 import com.example.peeringbyakugan.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
