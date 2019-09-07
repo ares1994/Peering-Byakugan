@@ -1,6 +1,8 @@
 package com.example.peeringbyakugan.network
 
-import com.example.peeringbyakugan.detailsData.SingleAnimeResponse
+import com.example.peeringbyakugan.network.singleAnimeDataModels.SingleAnimeResponse
+import com.example.peeringbyakugan.network.scheduleDataModels.ScheduleResponse
+import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
@@ -19,10 +21,15 @@ interface Jikan {
 
     @GET("anime/{animeId}")
     fun getAnimeAsync(
-        @Path("animeId") animeId : Int
-    ) : Deferred<SingleAnimeResponse>
-}
+        @Path("animeId") animeId: Int
+    ): Deferred<SingleAnimeResponse>
 
+
+    @GET("schedule/{day}?type=anime")
+    fun getScheduleAsync(
+        @Path("day") day: String
+    ): Deferred<ScheduleResponse>
+}
 
 
 /**

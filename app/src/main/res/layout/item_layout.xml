@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="searchAnime" type="com.example.peeringbyakugan.network.SearchOnlyResultsItem"/>
+        <variable name="searchAnime" type="com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem"/>
         <variable name="clickListener" type="com.example.peeringbyakugan.AnimeClickListener"/>
 
     </data>

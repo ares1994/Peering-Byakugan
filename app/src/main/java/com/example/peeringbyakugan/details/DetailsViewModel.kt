@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.peeringbyakugan.daggerUtil.AppComponent
-import com.example.peeringbyakugan.detailsData.SingleAnimeResponse
+import com.example.peeringbyakugan.network.singleAnimeDataModels.SingleAnimeResponse
 import com.example.peeringbyakugan.network.Jikan
-import com.example.peeringbyakugan.network.SearchOnlyResponse
-import com.example.peeringbyakugan.network.SearchOnlyResultsItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

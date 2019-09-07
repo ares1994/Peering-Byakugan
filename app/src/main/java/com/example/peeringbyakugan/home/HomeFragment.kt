@@ -6,10 +6,12 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -17,19 +19,18 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.peeringbyakugan.*
 import com.example.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.nav_header.view.*
 import javax.inject.Inject
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
+
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var animeAdapter: AnimeRecyclerAdapter
-
-
-    @Inject
-    lateinit var cm: ConnectivityManager
 
 
     @SuppressLint("SetTextI18n")
@@ -38,29 +39,37 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val appComponent = ((this.activity!!.application) as ByakuganApplication).getAppComponent()
-        appComponent.inject(this)
+
         Log.d("HomeFragment", "OnCreate called")
         (activity as AppCompatActivity).title = ""
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val viewModelFactory =
-            HomeViewModelFactory(appComponent)
+            HomeViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
 
+        val navView: NavigationView = (activity as MainActivity).findViewById(R.id.navView)
+        val header = navView.getHeaderView(0)
+        header.daySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.daysList)
+        header.daySpinner.onItemSelectedListener = this
 
 
         animeAdapter =
             AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle ->
-                this.findNavController()
-                    .navigate(
-                        HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
-                            animeId,
-                            animeTitle
+                if (viewModel.isInternetConnection()) {
+                    this.findNavController()
+                        .navigate(
+                            HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                                animeId,
+                                animeTitle
+                            )
                         )
-                    )
+                } else {
+                    internetErrorMechanism()
+                }
+
             })
 
         binding.animeListRecyclerView.apply {
@@ -89,6 +98,8 @@ class HomeFragment : Fragment() {
             }
         })
 
+
+
         return binding.root
     }
 
@@ -102,7 +113,7 @@ class HomeFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                if (cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected) {
+                if (viewModel.isInternetConnection()) {
                     val genreList = checkChipGroup()
                     if (query.isNullOrBlank() && genreList.isBlank()) {
                         Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
@@ -110,16 +121,12 @@ class HomeFragment : Fragment() {
                         return false
                     }
 
-                    binding.errorView.visibility = View.INVISIBLE
-                    animeAdapter.submitList(null)
-                    viewModel.progressBarVisible()
+                    loadingMechanism()
                     viewModel.queryJikanSearchAndFilter(query!!, genreList)
                     searchView.clearFocus()
                     return true
                 }
-                binding.errorTextView.text = getString(R.string.error_internet)
-                binding.errorView.visibility = View.VISIBLE
-                animeAdapter.submitList(null)
+                internetErrorMechanism()
                 return true
 
 
@@ -131,13 +138,17 @@ class HomeFragment : Fragment() {
         })
     }
 
-//    override fun onQueryTextSubmit(query: String?): Boolean {
-//
-//    }
-//
-//    override fun onQueryTextChange(newText: String?): Boolean {
-//        return true
-//    }
+    private fun internetErrorMechanism() {
+        binding.errorTextView.text = getString(R.string.error_internet)
+        binding.errorView.visibility = View.VISIBLE
+        animeAdapter.submitList(null)
+    }
+
+    private fun loadingMechanism() {
+        binding.errorView.visibility = View.INVISIBLE
+        animeAdapter.submitList(null)
+        viewModel.progressBarVisible()
+    }
 
     fun checkChipGroup(): String {
         var genreList = ""
@@ -153,5 +164,22 @@ class HomeFragment : Fragment() {
 
     }
 
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+     
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (position == 0) return
+        if (viewModel.isInternetConnection()) {
+            loadingMechanism()
+            viewModel.queryJikanSchedule("${parent?.adapter?.getItem(position)}")
+        } else {
+            internetErrorMechanism()
+        }
+        val drawerLayout: DrawerLayout = (activity as MainActivity).findViewById(R.id.drawerLayout)
+        drawerLayout.closeDrawers()
+
+    }
 
 }

@@ -1,10 +1,10 @@
-package com.example.peeringbyakugan.detailsData
+package com.example.peeringbyakugan.network.singleAnimeDataModels
 
 
 import com.google.gson.annotations.SerializedName
 
 
-data class AdaptationItem(
+data class ProducersItem(
 
 	@field:SerializedName("name")
 	val name: String? = null,

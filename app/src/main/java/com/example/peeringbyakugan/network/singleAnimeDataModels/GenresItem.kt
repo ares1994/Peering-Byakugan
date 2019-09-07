@@ -1,10 +1,9 @@
-package com.example.peeringbyakugan.detailsData
+package com.example.peeringbyakugan.network.singleAnimeDataModels
 
 
 import com.google.gson.annotations.SerializedName
 
-
-data class LicensorsItem(
+data class GenresItem(
 
 	@field:SerializedName("name")
 	val name: String? = null,

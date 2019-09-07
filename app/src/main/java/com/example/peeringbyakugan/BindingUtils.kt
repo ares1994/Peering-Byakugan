@@ -3,7 +3,7 @@ package com.example.peeringbyakugan
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.example.peeringbyakugan.network.SearchOnlyResultsItem
+import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem
 import com.squareup.picasso.Picasso
 
 

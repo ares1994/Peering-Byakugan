@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.peeringbyakugan.network.SearchOnlyResultsItem
+import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem
 import com.example.peeringbyakugan.databinding.ItemLayoutBinding
 
 class AnimeRecyclerAdapter (val clickListener: AnimeClickListener):

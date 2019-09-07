@@ -32,12 +32,13 @@ class DetailsFragment : Fragment() {
 
 
         val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
-        val appComponent = ((this.activity!!.application) as ByakuganApplication).getAppComponent()
         (activity as AppCompatActivity).title = args?.animeTitle
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_details, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_details, container, false
+        )
         val viewModelFactory =
-            DetailsViewModelFactory(appComponent)
+            DetailsViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailsViewModel::class.java)
 
         viewModel.queryJikanForAnime(args!!.animeId)
