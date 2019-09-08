@@ -2,7 +2,6 @@ package com.example.peeringbyakugan.home
 
 
 import android.annotation.SuppressLint
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -22,7 +21,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.nav_header.view.*
-import javax.inject.Inject
+
 
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -46,6 +45,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val viewModelFactory =
             HomeViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
+        binding.lifecycleOwner = this
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
@@ -166,7 +166,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-     
+
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

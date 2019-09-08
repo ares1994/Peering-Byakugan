@@ -37,6 +37,8 @@ class DetailsFragment : Fragment() {
             inflater,
             R.layout.fragment_details, container, false
         )
+        binding.lifecycleOwner = this
+
         val viewModelFactory =
             DetailsViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailsViewModel::class.java)
