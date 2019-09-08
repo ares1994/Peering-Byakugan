@@ -1,15 +1,19 @@
 package com.example.peeringbyakugan
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem
 import com.example.peeringbyakugan.databinding.ItemLayoutBinding
+import com.google.android.material.snackbar.Snackbar
 
-class AnimeRecyclerAdapter (val clickListener: AnimeClickListener):
+class AnimeRecyclerAdapter(private val clickListener: AnimeClickListener) :
     ListAdapter<SearchOnlyResultsItem, AnimeRecyclerAdapter.ViewHolder>(AnimeInstanceDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,9 +45,29 @@ class AnimeRecyclerAdapter (val clickListener: AnimeClickListener):
         fun bind(
             item: SearchOnlyResultsItem,
             clickListener: AnimeClickListener
+
         ) {
 //            Picasso.get().load(item.imageUrl).into(binding.animeImageView)
 //            binding.animeTitle.text = item.title
+            if (item.airing == false) binding.overFlowOptions.visibility = View.GONE
+            else {
+                binding.overFlowOptions.visibility = View.VISIBLE
+            }
+            binding.overFlowOptions.setOnClickListener {
+
+                val popup = PopupMenu(binding.root.context, it)
+                popup.inflate(R.menu.bookmark_popup_menu)
+                popup.setOnMenuItemClickListener { menuItem ->
+                    if (menuItem.itemId == R.id.action_bookmark) {
+
+                        Snackbar.make(it, "Successfully bookmarked", Snackbar.LENGTH_LONG).show()
+                        return@setOnMenuItemClickListener true
+                    }
+                    return@setOnMenuItemClickListener false
+                }
+                popup.show()
+            }
+
             binding.clickListener = clickListener
             binding.searchAnime = item
             binding.executePendingBindings()
@@ -66,6 +90,7 @@ class AnimeInstanceDiffCallback : DiffUtil.ItemCallback<SearchOnlyResultsItem>()
 }
 
 
-class AnimeClickListener(val clickListener: (animeId: Int, animeTitle : String) -> Unit){
+class AnimeClickListener(val clickListener: (animeId: Int, animeTitle: String) -> Unit) {
     fun onClick(anime: SearchOnlyResultsItem) = clickListener(anime.malId!!, anime.title!!)
 }
+

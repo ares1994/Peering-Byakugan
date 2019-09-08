@@ -12,7 +12,7 @@
                                        android:layout_margin="4dp"
                                        app:cardCornerRadius="8dp"
                                        app:cardElevation="8dp"
-    android:onClick="@{()-> clickListener.onClick(searchAnime)}">
+                                       android:onClick="@{()-> clickListener.onClick(searchAnime)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -28,7 +28,7 @@
 
             <TextView android:layout_width="0dp"
                       app:layout_constraintStart_toStartOf="parent"
-                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintEnd_toStartOf="@id/overFlowOptions"
                       android:gravity="center_horizontal"
                       android:layout_height="wrap_content"
                       tools:text="We the best"
@@ -38,6 +38,17 @@
                       app:layout_constraintTop_toBottomOf="@id/animeImageView"
                       android:fontFamily="@font/roboto_italic"
                       android:textColor="#000"/>
+
+            <TextView
+                    android:id="@+id/overFlowOptions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/animeImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/overflow"
+                    android:textColor="@android:color/black"
+                    android:padding="4dp"
+                    android:textAppearance="?android:textAppearanceLarge"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

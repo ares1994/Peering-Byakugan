@@ -58,7 +58,13 @@ class DetailsFragment : Fragment() {
                 if (it.premiered.isNullOrBlank()) getString(R.string.premier_date, it.aired!!.string)
                 else getString(R.string.premier_date, it.premiered)
             binding.ratingsTextView.text = getString(R.string.ratings, it.score.toString())
-            binding.episodesTextView.text = getString(R.string.episodes, it.episodes.toString())
+
+            if (it.episodes.toString() == "null") {
+                binding.episodesTextView.text = getString(R.string.episodes, getString(R.string.not_applicable))
+            } else {
+                binding.episodesTextView.text = getString(R.string.episodes, it.episodes.toString())
+            }
+
             binding.statusTextView.text = getString(R.string.status, it.status)
 
 

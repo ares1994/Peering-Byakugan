@@ -26,6 +26,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private val _animeRetrievalAttemptCompleted = MutableLiveData<Boolean>()
     val animeRetrievalAttemptCompleted: LiveData<Boolean> get() = _animeRetrievalAttemptCompleted
 
+    private val _animeRetrievalSuccessful = MutableLiveData<Boolean>()
+    val animeRetrievalSuccessful: LiveData<Boolean> get() = _animeRetrievalSuccessful
+
     @Inject
     lateinit var jikanIO: Jikan
 
@@ -46,12 +49,14 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
                 _currentAnimeList.value = list as List<SearchOnlyResultsItem>?
+                _animeRetrievalSuccessful.value = true
 //                Log.d("HomeViewModel", "The name of the first anime is ${list?.get(0)?.title}")
 //                Log.d("HomeViewModel", "And it's synopsis is: ${list?.get(0)?.synopsis}")
 
             } catch (t: Throwable) {
                 Log.d("HomeViewModel", "${t.message}")
                 progressBarInvisible()
+                _animeRetrievalSuccessful.value = false
             }
         }
     }
@@ -78,11 +83,13 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 }
 
                 _currentAnimeList.value = list.toSearchItem() as List<SearchOnlyResultsItem>?
+                _animeRetrievalSuccessful.value = true
 
 
             } catch (t: Throwable) {
                 Log.d("HomeViewModel", "${t.message}")
                 progressBarInvisible()
+                _animeRetrievalSuccessful.value = false
             }
         }
     }
@@ -113,7 +120,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
         return this?.map {
             SearchOnlyResultsItem(
                 null, it?.imageUrl, it?.malId, null, it?.title, null,
-                null, null, null, null, null, null, null
+                null, null, null, null, true, null, it?.airingStart
             )
 
         }

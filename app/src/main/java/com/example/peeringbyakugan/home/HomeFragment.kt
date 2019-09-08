@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -20,8 +21,9 @@ import com.example.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_layout.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-
 
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -50,7 +52,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
 
-        val navView: NavigationView = (activity as MainActivity).findViewById(R.id.navView)
+        val navView: NavigationView = (activity as MainActivity).navView
         val header = navView.getHeaderView(0)
         header.daySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.daysList)
         header.daySpinner.onItemSelectedListener = this
@@ -78,13 +80,16 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         }
 
-        viewModel.currentAnimeList.observe(this, Observer {
-            if (it.isNullOrEmpty()) {
+        viewModel.animeRetrievalSuccessful.observe(this, Observer {
+            if (!it) {
                 binding.errorView.visibility = View.VISIBLE
-                binding.errorTextView.text = getString(R.string.none_found_error_message)
+                binding.errorTextView.text = getString(R.string.insufficient_internet_error)
             } else {
                 binding.errorView.visibility = View.INVISIBLE
             }
+        })
+
+        viewModel.currentAnimeList.observe(this, Observer {
             animeAdapter.submitList(it)
             viewModel.progressBarInvisible()
         })
