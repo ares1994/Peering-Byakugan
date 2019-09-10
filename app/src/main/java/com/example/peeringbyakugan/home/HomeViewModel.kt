@@ -29,6 +29,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private val _animeRetrievalSuccessful = MutableLiveData<Boolean>()
     val animeRetrievalSuccessful: LiveData<Boolean> get() = _animeRetrievalSuccessful
 
+    private val _seekBarValue = MutableLiveData<Float>()
+    val seekBarValue: LiveData<Float> get() = _seekBarValue
+
     @Inject
     lateinit var jikanIO: Jikan
 
@@ -36,17 +39,17 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     lateinit var cm: ConnectivityManager
 
 
-
     init {
         appComponent.inject(this)
         _animeRetrievalAttemptCompleted.value = true
+        _seekBarValue.value = 0.0f
     }
 
 
-    fun queryJikanSearchAndFilter(query: String, genreList: String) {
+    fun queryJikanSearchAndFilter(query: String, genreList: String, score: String) {
         scope.launch {
             try {
-                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList).await()
+                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
                 _currentAnimeList.value = list as List<SearchOnlyResultsItem>?
 
@@ -110,10 +113,15 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     }
 
 
+    fun setSeekBarValue(value: Float) {
+        _seekBarValue.value = value
+    }
+
+
     companion object {
 
         val daysList = listOf("None", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-
+//        val orderList
     }
 
     private fun List<DayItem?>?.toSearchItem(): List<SearchOnlyResultsItem?>? {

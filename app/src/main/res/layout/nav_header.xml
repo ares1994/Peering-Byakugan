@@ -24,20 +24,33 @@
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:textAppearance="?android:textAppearanceSmall"
-              android:text="@string/order_by"
-              android:id="@+id/orderByTextView"
+              android:text="@string/minimum_score"
+              android:id="@+id/enterRatingsTextView"
               android:fontFamily="sans-serif"
               android:textColor="@android:color/black"
               app:layout_constraintStart_toStartOf="parent"
               android:layout_marginTop="16dp"
               app:layout_constraintTop_toBottomOf="@id/daySpinner"/>
 
-    <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <SeekBar android:layout_width="0dp" android:layout_height="wrap_content"
              android:layout_marginTop="4dp"
-             android:id="@+id/orderBySpinner"
-             app:layout_constraintTop_toBottomOf="@id/orderByTextView"
+             android:inputType="numberDecimal"
+             android:id="@+id/scoreSeekBar"
+             app:layout_constraintTop_toBottomOf="@id/enterRatingsTextView"
+             app:layout_constraintEnd_toEndOf="@id/daySpinner"
              app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            tools:text="20"
+            android:textColor="@android:color/black"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/currentScoreTextView"
+            app:layout_constraintTop_toTopOf="@id/scoreSeekBar"
+            app:layout_constraintBottom_toBottomOf="@id/scoreSeekBar"
+            app:layout_constraintStart_toEndOf="@id/scoreSeekBar"
+            android:layout_marginStart="4dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

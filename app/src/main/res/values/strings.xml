@@ -61,6 +61,7 @@
     <string name="overflow">⋮</string>
     <string name="bookmark">Bookmark</string>
     <string name="not_applicable">N/A</string>
-    <string name="insufficient_internet_error">Sorry, the internet connection\nseems to be slow</string>
+    <string name="insufficient_internet_error">Sorry, the internet connection\nseems to be a bit slow</string>
     <string name="order_by">Order By</string>
+    <string name="minimum_score">Minimum rating</string>
 </resources>

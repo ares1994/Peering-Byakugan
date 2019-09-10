@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.PopupMenu
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.item_layout.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 
-class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
 
 
     private lateinit var viewModel: HomeViewModel
@@ -52,10 +53,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
 
-        val navView: NavigationView = (activity as MainActivity).navView
-        val header = navView.getHeaderView(0)
+        val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)
         header.daySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.daysList)
         header.daySpinner.onItemSelectedListener = this
+        header.scoreSeekBar.setOnSeekBarChangeListener(this)
 
 
         animeAdapter =
@@ -111,6 +112,9 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         })
 
+        viewModel.seekBarValue.observe(this, Observer {
+            header.currentScoreTextView.text = it.toString()
+        })
 
 
         return binding.root
@@ -122,21 +126,26 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         inflater.inflate(R.menu.home_fragment_menu, menu)
         val menuItem = menu.findItem(R.id.app_bar_search)
         val searchView = menuItem.actionView as AnimeSearchView
+        val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)
+
+
         searchView.queryHint = getString(R.string.search_query_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
                 if (viewModel.isInternetConnection()) {
                     val genreList = checkChipGroup()
-                    if (query.isNullOrBlank() && genreList.isBlank()) {
+                    val score = viewModel.seekBarValue.value.toString()
+                    if (query.isNullOrBlank() && genreList.isBlank() && score == "0.0") {
                         Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
                         searchView.clearFocus()
                         return false
                     }
 
                     loadingMechanism()
-                    viewModel.queryJikanSearchAndFilter(query!!, genreList)
+                    viewModel.queryJikanSearchAndFilter(query!!, genreList, score)
                     searchView.clearFocus()
+                    header.scoreSeekBar.progress = 0
                     return true
                 }
                 internetErrorMechanism()
@@ -192,6 +201,18 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         val drawerLayout: DrawerLayout = (activity as MainActivity).findViewById(R.id.drawerLayout)
         drawerLayout.closeDrawers()
+
+    }
+
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        viewModel.setSeekBarValue((p1 / 10).toFloat())
+    }
+
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+
+    }
+
+    override fun onStopTrackingTouch(p0: SeekBar?) {
 
     }
 

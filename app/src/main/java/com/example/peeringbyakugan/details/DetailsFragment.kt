@@ -53,10 +53,15 @@ class DetailsFragment : Fragment() {
 
         viewModel.currentAnime.observe(this, Observer {
 
-
+            binding.synopsisCardView.visibility = View.VISIBLE
             binding.premierDateTextView.text =
-                if (it.premiered.isNullOrBlank()) getString(R.string.premier_date, it.aired!!.string)
-                else getString(R.string.premier_date, it.premiered)
+                if (it.premiered.isNullOrBlank()) getString(
+                    R.string.premier_date,
+                    it.aired!!.string!!.split(Regex("to"))[0]
+                )
+                else {
+                    getString(R.string.premier_date, it.premiered)
+                }
             binding.ratingsTextView.text = getString(R.string.ratings, it.score.toString())
 
             if (it.episodes.toString() == "null") {

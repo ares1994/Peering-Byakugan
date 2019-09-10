@@ -5,11 +5,12 @@
 
     </data>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+    >
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="16dp"
+                android:layout_marginBottom="16dp"
                 tools:context=".details.DetailsFragment" tools:ignore="ScrollViewSize">
 
             <WebView android:layout_width="0dp" android:layout_height="240dp"
@@ -38,63 +39,65 @@
                                                app:layout_constraintTop_toBottomOf="@id/youtubeWebView"
                                                app:layout_constraintStart_toStartOf="parent"
                                                app:layout_constraintEnd_toEndOf="parent"
-                                               app:cardCornerRadius="8dp"
+                                               app:cardCornerRadius="12dp"
                                                android:id="@+id/synopsisCardView"
                                                app:cardElevation="4dp"
                                                android:layout_margin="16dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:orientation="vertical">
 
 
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:layout_margin="8dp"
-                          android:textColor="@android:color/black"
-                          android:textAppearance="?android:textAppearanceSmall"
-                          android:id="@+id/synopsisTextView"/>
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:layout_margin="8dp"
+                              android:textColor="@android:color/black"
+                              android:textAppearance="?android:textAppearanceSmall"
+                              android:id="@+id/synopsisTextView"/>
 
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/statusTextView"
+                              android:textColor="@color/colorAccent"
+                              android:layout_marginTop="16dp"
+                              android:fontFamily="@font/roboto_italic"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:layout_margin="8dp"
+                              tools:text="abababababa"
+                    />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/episodesTextView"
+                              android:layout_marginTop="16dp"
+                              tools:text="abababababa"
+                              android:layout_margin="8dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:fontFamily="@font/roboto_italic"
+                              android:textColor="@color/colorAccent"
+                    />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textColor="@color/colorAccent"
+                              android:layout_marginTop="16dp"
+                              android:layout_margin="8dp"
+                              android:id="@+id/ratingsTextView"
+                              android:fontFamily="@font/roboto_italic"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              tools:text="abababababa"
+                    />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+                              android:id="@+id/premierDateTextView"
+                              android:textColor="@color/colorAccent"
+                              android:layout_marginTop="16dp"
+                              tools:text="abababababa"
+                              android:layout_margin="8dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:fontFamily="@font/roboto_italic"
+                    />
+
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      android:id="@+id/statusTextView"
-                      android:textColor="@color/colorAccent"
-                      android:layout_marginTop="16dp"
-                      android:fontFamily="@font/roboto_italic"
-                      android:textSize="16sp"
-                      app:layout_constraintTop_toBottomOf="@id/synopsisCardView"
-                      app:layout_constraintStart_toEndOf="@+id/episodesTextView"
-                      app:layout_constraintHorizontal_bias="0.5"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      app:layout_constraintStart_toStartOf="parent"
-                      android:id="@+id/episodesTextView"
-                      android:layout_marginTop="16dp"
-                      app:layout_constraintTop_toBottomOf="@id/statusTextView"
-                      app:layout_constraintHorizontal_bias="0.5"
-                      android:textSize="16sp"
-                      android:fontFamily="@font/roboto_italic"
-                      android:textColor="@color/colorAccent"
-                      app:layout_constraintEnd_toStartOf="@+id/statusTextView"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      android:textColor="@color/colorAccent"
-                      android:layout_marginTop="16dp"
-                      android:id="@+id/ratingsTextView"
-                      android:fontFamily="@font/roboto_italic"
-                      android:textSize="16sp"
-                      app:layout_constraintTop_toBottomOf="@id/episodesTextView"
-                      app:layout_constraintStart_toEndOf="@+id/premierDateTextView"
-                      app:layout_constraintHorizontal_bias="0.5"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      app:layout_constraintStart_toStartOf="parent"
-                      android:id="@+id/premierDateTextView"
-                      android:textColor="@color/colorAccent"
-                      android:layout_marginTop="16dp"
-                      android:fontFamily="@font/roboto_italic"
-                      android:textSize="16sp"
-                      app:layout_constraintTop_toBottomOf="@id/ratingsTextView"
-                      app:layout_constraintHorizontal_bias="0.5"
-                      app:layout_constraintEnd_toStartOf="@+id/ratingsTextView"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
