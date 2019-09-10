@@ -49,24 +49,6 @@ class AnimeRecyclerAdapter(private val clickListener: AnimeClickListener) :
         ) {
 //            Picasso.get().load(item.imageUrl).into(binding.animeImageView)
 //            binding.animeTitle.text = item.title
-            if (item.airing == false) binding.overFlowOptions.visibility = View.GONE
-            else {
-                binding.overFlowOptions.visibility = View.VISIBLE
-            }
-            binding.overFlowOptions.setOnClickListener {
-
-                val popup = PopupMenu(binding.root.context, it)
-                popup.inflate(R.menu.bookmark_popup_menu)
-                popup.setOnMenuItemClickListener { menuItem ->
-                    if (menuItem.itemId == R.id.action_bookmark) {
-
-                        Snackbar.make(it, "Successfully bookmarked", Snackbar.LENGTH_LONG).show()
-                        return@setOnMenuItemClickListener true
-                    }
-                    return@setOnMenuItemClickListener false
-                }
-                popup.show()
-            }
 
             binding.clickListener = clickListener
             binding.searchAnime = item

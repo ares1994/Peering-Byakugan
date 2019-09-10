@@ -90,6 +90,14 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         })
 
         viewModel.currentAnimeList.observe(this, Observer {
+            if (it.isNullOrEmpty()) {
+                binding.errorView.visibility = View.VISIBLE
+                binding.errorTextView.text = getString(R.string.none_found_error_message)
+            } else {
+                binding.errorView.visibility = View.INVISIBLE
+            }
+
+
             animeAdapter.submitList(it)
             viewModel.progressBarInvisible()
         })

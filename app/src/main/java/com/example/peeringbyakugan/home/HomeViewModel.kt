@@ -49,7 +49,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
                 _currentAnimeList.value = list as List<SearchOnlyResultsItem>?
-                _animeRetrievalSuccessful.value = true
+
 //                Log.d("HomeViewModel", "The name of the first anime is ${list?.get(0)?.title}")
 //                Log.d("HomeViewModel", "And it's synopsis is: ${list?.get(0)?.synopsis}")
 
