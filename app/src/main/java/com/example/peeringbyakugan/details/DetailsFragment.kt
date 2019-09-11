@@ -3,18 +3,19 @@ package com.example.peeringbyakugan.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.peeringbyakugan.AnimeWebViewClient
 import com.example.peeringbyakugan.ByakuganApplication
 import com.example.peeringbyakugan.R
+import com.example.peeringbyakugan.characters.CharactersFragmentArgs
 import com.example.peeringbyakugan.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
 
@@ -30,9 +31,10 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        setHasOptionsMenu(true)
 
         val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
-        (activity as AppCompatActivity).title = args?.animeTitle
+
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_details, container, false
@@ -98,5 +100,31 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.details_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_characters -> {
+                val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
+                this.findNavController().navigate(DetailsFragmentDirections.Characters(args!!.animeId))
+                return true
+            }
+        }
+
+
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("DetailsFragment", "OnResumeCalled")
+        val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
+        (activity as AppCompatActivity).title = args?.animeTitle
+    }
 
 }

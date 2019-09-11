@@ -1,5 +1,6 @@
 package com.example.peeringbyakugan.network
 
+import com.example.peeringbyakugan.network.charactersDataModels.CharactersResponse
 import com.example.peeringbyakugan.network.singleAnimeDataModels.SingleAnimeResponse
 import com.example.peeringbyakugan.network.scheduleDataModels.ScheduleResponse
 import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResponse
@@ -24,6 +25,11 @@ interface Jikan {
     fun getAnimeAsync(
         @Path("animeId") animeId: Int
     ): Deferred<SingleAnimeResponse>
+
+    @GET("anime/{animeId}/characters_staff")
+    fun getAnimeCharactersAsync(
+        @Path("animeId") animeId: Int
+    ): Deferred<CharactersResponse>
 
 
     @GET("schedule/{day}?type=anime")

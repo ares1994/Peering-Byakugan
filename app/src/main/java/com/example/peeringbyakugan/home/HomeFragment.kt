@@ -43,7 +43,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
 
 
         Log.d("HomeFragment", "OnCreate called")
-        (activity as AppCompatActivity).title = ""
+
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val viewModelFactory =
@@ -216,4 +216,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).title = ""
+    }
 }

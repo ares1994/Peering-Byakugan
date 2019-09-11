@@ -15,5 +15,13 @@
     >
         <argument android:name="animeId" app:argType="integer"/>
         <argument android:name="animeTitle" app:argType="string"/>
+        <action android:id="@+id/Characters"
+                app:destination="@id/charactersFragment" app:enterAnim="@anim/fade_in" app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/slide_in_right" app:popExitAnim="@anim/slide_in_left"/>
+    </fragment>
+    <fragment android:id="@+id/charactersFragment"
+              android:name="com.example.peeringbyakugan.characters.CharactersFragment"
+    >
+        <argument android:name="animeId" app:argType="integer"/>
     </fragment>
 </navigation>
