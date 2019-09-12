@@ -57,6 +57,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         header.daySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.daysList)
         header.daySpinner.onItemSelectedListener = this
         header.scoreSeekBar.setOnSeekBarChangeListener(this)
+        header.orderBySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.orderList)
+
 
 
         animeAdapter =
@@ -136,14 +138,16 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
                 if (viewModel.isInternetConnection()) {
                     val genreList = checkChipGroup()
                     val score = viewModel.seekBarValue.value.toString()
-                    if (query.isNullOrBlank() && genreList.isBlank() && score == "0.0") {
+                    val orderSelected =
+                        HomeViewModel.orderListBundle.getString(HomeViewModel.orderList[header.orderBySpinner.selectedItemPosition])
+                    if (query.isNullOrBlank() && genreList.isBlank() && score == "0.0" && orderSelected.isNullOrBlank()) {
                         Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
                         searchView.clearFocus()
                         return false
                     }
 
                     loadingMechanism()
-                    viewModel.queryJikanSearchAndFilter(query!!, genreList, score)
+                    viewModel.queryJikanSearchAndFilter(query!!, genreList, score, orderSelected!!)
                     searchView.clearFocus()
                     header.scoreSeekBar.progress = 0
                     return true

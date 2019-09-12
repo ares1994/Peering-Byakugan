@@ -17,7 +17,8 @@ interface Jikan {
     fun getAnimeListAsync(
         @Query("q") query: String,
         @Query("genre") genre: String,
-        @Query("score") score: String
+        @Query("score") score: String,
+        @Query("order_by") orderBy : String
     ): Deferred<SearchOnlyResponse>
 
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Peering Byakugan</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action">Action</string>
     <string name="adventure">Adventure</string>
@@ -57,13 +57,14 @@
     <string name="premier_date">Premiered: %s</string>
     <string name="error_internet">Please check your internet connection</string>
     <string name="about">About</string>
-    <string name="schedule">Schedule</string>
+    <string name="currently_airing">Currently Airing</string>
     <string name="overflow">⋮</string>
     <string name="bookmark">Bookmark</string>
     <string name="not_applicable">N/A</string>
     <string name="insufficient_internet_error">Sorry, the internet connection\nseems to be a bit slow</string>
-    <string name="order_by">Order By</string>
     <string name="minimum_score">Minimum rating</string>
     <string name="characters">Characters</string>
+    <string name="filters">filters</string>
+    <string name="order_by">Order By</string>
 
 </resources>

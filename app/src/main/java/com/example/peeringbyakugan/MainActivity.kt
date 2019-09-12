@@ -2,6 +2,7 @@ package com.example.peeringbyakugan
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
@@ -17,6 +18,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.item_spinner.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import javax.inject.Inject
+import kotlin.math.ceil
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -41,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         NavigationUI.setupWithNavController(binding.navView, navController)
+
+
+
 
     }
 

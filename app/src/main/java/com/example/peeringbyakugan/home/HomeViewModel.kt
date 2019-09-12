@@ -1,7 +1,9 @@
 package com.example.peeringbyakugan.home
 
 import android.net.ConnectivityManager
+import android.os.Bundle
 import android.util.Log
+import androidx.core.app.BundleCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +34,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private val _seekBarValue = MutableLiveData<Float>()
     val seekBarValue: LiveData<Float> get() = _seekBarValue
 
+
     @Inject
     lateinit var jikanIO: Jikan
 
@@ -43,13 +46,14 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
         appComponent.inject(this)
         _animeRetrievalAttemptCompleted.value = true
         _seekBarValue.value = 0.0f
+
     }
 
 
-    fun queryJikanSearchAndFilter(query: String, genreList: String, score: String) {
+    fun queryJikanSearchAndFilter(query: String, genreList: String, score: String, orderBy: String) {
         scope.launch {
             try {
-                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score).await()
+                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score, orderBy).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
                 _currentAnimeList.value = list as List<SearchOnlyResultsItem>?
 
@@ -121,7 +125,14 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     companion object {
 
         val daysList = listOf("None", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-//        val orderList
+        val orderList = listOf("Title", "Start Date", "Rating", "No of Episodes")
+        val orderListBundle = Bundle().apply {
+            putString(orderList[0], "title")
+            putString(orderList[1], "start_date")
+            putString(orderList[2], "score")
+            putString(orderList[3], "episodes")
+        }
+
     }
 
     private fun List<DayItem?>?.toSearchItem(): List<SearchOnlyResultsItem?>? {
