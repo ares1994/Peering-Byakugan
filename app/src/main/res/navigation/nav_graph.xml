@@ -25,5 +25,5 @@
         <argument android:name="animeId" app:argType="integer"/>
     </fragment>
     <fragment android:id="@+id/bookmarkFragment" android:name="com.example.peeringbyakugan.bookmark.BookmarkFragment"
-              android:label="Bookmarks"/>
+    />
 </navigation>

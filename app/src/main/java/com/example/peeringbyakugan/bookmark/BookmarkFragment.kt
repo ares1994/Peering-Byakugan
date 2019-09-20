@@ -23,6 +23,7 @@ class BookmarkFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        this.activity!!.title = "Bookmarks"
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bookmark, container, false)
         val viewModelFactory =
