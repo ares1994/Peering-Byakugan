@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.peeringbyakugan.AnimeWebViewClient
 import com.example.peeringbyakugan.ByakuganApplication
 import com.example.peeringbyakugan.R
-import com.example.peeringbyakugan.characters.CharactersFragmentArgs
 import com.example.peeringbyakugan.databinding.FragmentDetailsBinding
+import com.example.peeringbyakugan.GenericViewModelFactory
 import com.squareup.picasso.Picasso
 
 
@@ -42,7 +42,7 @@ class DetailsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val viewModelFactory =
-            DetailsViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
+            GenericViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailsViewModel::class.java)
 
         viewModel.queryJikanForAnime(args!!.animeId)

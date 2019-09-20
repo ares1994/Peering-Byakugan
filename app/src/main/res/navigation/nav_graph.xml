@@ -7,9 +7,9 @@
     >
 
         <action android:id="@+id/action_homeFragment_to_detailsFragment" app:destination="@id/detailsFragment"
-                app:enterAnim="@anim/fade_in" app:exitAnim="@anim/fade_out"
-                app:popEnterAnim="@anim/slide_in_right"
-                app:popExitAnim="@anim/slide_in_left"/>
+                app:enterAnim="@anim/slide_in_right" app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"/>
     </fragment>
     <fragment android:id="@+id/detailsFragment" android:name="com.example.peeringbyakugan.details.DetailsFragment"
     >
@@ -17,11 +17,13 @@
         <argument android:name="animeTitle" app:argType="string"/>
         <action android:id="@+id/Characters"
                 app:destination="@id/charactersFragment" app:enterAnim="@anim/fade_in" app:exitAnim="@anim/fade_out"
-                app:popEnterAnim="@anim/slide_in_right" app:popExitAnim="@anim/slide_in_left"/>
+                app:popEnterAnim="@anim/slide_in_right" app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment android:id="@+id/charactersFragment"
               android:name="com.example.peeringbyakugan.characters.CharactersFragment"
     >
         <argument android:name="animeId" app:argType="integer"/>
     </fragment>
+    <fragment android:id="@+id/bookmarkFragment" android:name="com.example.peeringbyakugan.bookmark.BookmarkFragment"
+              android:label="Bookmarks"/>
 </navigation>

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.peeringbyakugan.AnimeClickListener
 import com.example.peeringbyakugan.AnimeRecyclerAdapter
@@ -17,11 +16,7 @@ import com.example.peeringbyakugan.ByakuganApplication
 
 import com.example.peeringbyakugan.R
 import com.example.peeringbyakugan.databinding.FragmentCharactersBinding
-import com.example.peeringbyakugan.details.DetailsFragmentArgs
-import com.example.peeringbyakugan.details.DetailsFragmentDirections
-import com.example.peeringbyakugan.details.DetailsViewModel
-import com.example.peeringbyakugan.details.DetailsViewModelFactory
-import com.example.peeringbyakugan.home.HomeFragmentDirections
+import com.example.peeringbyakugan.GenericViewModelFactory
 
 
 class CharactersFragment : Fragment() {
@@ -43,7 +38,7 @@ class CharactersFragment : Fragment() {
         val args = arguments?.let { CharactersFragmentArgs.fromBundle(it) }
 
         val viewModelFactory =
-            CharactersViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
+            GenericViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CharactersViewModel::class.java)
 
 

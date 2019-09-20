@@ -5,14 +5,14 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="wrap_content">
 
-    <ImageView android:layout_width="wrap_content"
-               app:layout_constraintTop_toTopOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               android:id="@+id/navHeaderImage"
-               android:scaleType="centerCrop"
-               android:src="@drawable/nav_header_image"
-               android:layout_height="200dp"/>
+    <!--<ImageView android:layout_width="wrap_content"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--android:id="@+id/navHeaderImage"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/nav_header_image"-->
+    <!--android:layout_height="200dp"/>-->
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:textAppearance="?android:textAppearanceSmall"
@@ -22,7 +22,7 @@
               android:fontFamily="sans-serif"
               android:textColor="@android:color/black"
               app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/navHeaderImage"/>
+              app:layout_constraintTop_toTopOf="parent"/>
 
     <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
              android:layout_marginTop="8dp"

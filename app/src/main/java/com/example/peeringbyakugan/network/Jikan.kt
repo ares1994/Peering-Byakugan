@@ -43,13 +43,4 @@ interface Jikan {
 /**
  * Main entry point for network access. Call like `Network.jikanIO.getAnimeListAsync`
  */
-object Network {
-    // Configure retrofit to parse JSON and use coroutines
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.jikan.moe/v3/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .build()
 
-    val jikanIO: Jikan = retrofit.create(Jikan::class.java)
-}

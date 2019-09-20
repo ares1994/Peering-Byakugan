@@ -2,9 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:title="@string/about"
-            android:icon="@drawable/ic_android_black_24dp"
+            android:title="@string/bookmarks"
+            android:icon="@drawable/ic_bookmark_black_24dp"
             app:showAsAction="ifRoom"
+            android:id="@+id/bookmarkFragment"
+
     />
 
 </menu>

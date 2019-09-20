@@ -74,4 +74,13 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // Room database
+    //Room
+    implementation "androidx.room:room-runtime:2.0.0"
+    kapt "androidx.room:room-compiler:2.0.0"
+
+
+    // WorkManager
+    implementation "android.arch.work:work-runtime-ktx:1.0.1"
+
 }

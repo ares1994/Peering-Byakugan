@@ -3,11 +3,12 @@ package com.example.peeringbyakugan.home
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import androidx.core.app.BundleCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.peeringbyakugan.AnimeRepository
 import com.example.peeringbyakugan.daggerUtil.AppComponent
+import com.example.peeringbyakugan.database.DatabaseAnime
 import com.example.peeringbyakugan.network.*
 import com.example.peeringbyakugan.network.scheduleDataModels.DayItem
 import com.example.peeringbyakugan.network.scheduleDataModels.ScheduleResponse
@@ -41,6 +42,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     @Inject
     lateinit var cm: ConnectivityManager
 
+    @Inject
+    lateinit var animeRepo: AnimeRepository
+
 
     init {
         appComponent.inject(this)
@@ -52,6 +56,16 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     fun queryJikanSearchAndFilter(query: String, genreList: String, score: String, orderBy: String) {
         scope.launch {
+            animeRepo.saveBookmarkedAnime(
+                DatabaseAnime(
+                    1,
+                    "My Anime",
+                    true,
+                    "Friday the 13th",
+                    "https://noneyabusiness",
+                    System.currentTimeMillis()
+                )
+            )
             try {
                 val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score, orderBy).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
@@ -65,6 +79,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 progressBarInvisible()
                 _animeRetrievalSuccessful.value = false
             }
+
         }
     }
 
@@ -73,20 +88,14 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
             try {
                 val response: ScheduleResponse = jikanIO.getScheduleAsync(day).await()
                 var list: List<DayItem?>? = null
-                if (day == "Monday") {
-                    list = response.monday
-                } else if (day == "Tuesday") {
-                    list = response.tuesday
-                } else if (day == "Wednesday") {
-                    list = response.wednesday
-                } else if (day == "Thursday") {
-                    list = response.thursday
-                } else if (day == "Friday") {
-                    list = response.friday
-                } else if (day == "Saturday") {
-                    list = response.saturday
-                } else if (day == "Sunday") {
-                    list = response.sunday
+                when (day) {
+                    "Monday" -> list = response.monday
+                    "Tuesday" -> list = response.tuesday
+                    "Wednesday" -> list = response.wednesday
+                    "Thursday" -> list = response.thursday
+                    "Friday" -> list = response.friday
+                    "Saturday" -> list = response.saturday
+                    "Sunday" -> list = response.sunday
                 }
 
                 _currentAnimeList.value = list.toSearchItem() as List<SearchOnlyResultsItem>?
@@ -98,6 +107,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 progressBarInvisible()
                 _animeRetrievalSuccessful.value = false
             }
+
         }
     }
 
@@ -145,8 +155,12 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
         }
     }
 
+
     fun isInternetConnection(): Boolean {
+
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
+
     }
+
 
 }

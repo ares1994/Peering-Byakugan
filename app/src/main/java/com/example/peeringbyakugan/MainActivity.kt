@@ -17,6 +17,10 @@ import com.example.peeringbyakugan.network.Jikan
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.item_spinner.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -43,8 +47,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         NavigationUI.setupWithNavController(binding.navView, navController)
-
-
 
 
     }

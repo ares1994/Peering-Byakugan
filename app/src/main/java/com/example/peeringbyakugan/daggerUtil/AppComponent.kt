@@ -1,6 +1,7 @@
 package com.example.peeringbyakugan.daggerUtil
 
 import com.example.peeringbyakugan.MainActivity
+import com.example.peeringbyakugan.bookmark.BookmarkViewModel
 import com.example.peeringbyakugan.characters.CharactersViewModel
 import com.example.peeringbyakugan.details.DetailsViewModel
 import com.example.peeringbyakugan.home.HomeFragment
@@ -19,5 +20,6 @@ interface AppComponent {
 
     fun inject(viewModel: CharactersViewModel)
 
+    fun inject(viewModel : BookmarkViewModel)
 
 }
