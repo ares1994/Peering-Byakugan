@@ -61,10 +61,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        viewModel.animeRepo.animeList.observe(this, Observer {
-            if (it.isNullOrEmpty()) return@Observer
-            Toast.makeText(this.context, it[0].title, Toast.LENGTH_LONG).show()
-        })
+//        viewModel.animeRepo.animeList.observe(this, Observer {
+//            if (it.isNullOrEmpty()) return@Observer
+//            Toast.makeText(this.context, it[it.size-1].title, Toast.LENGTH_LONG).show()
+//        })
 
 
         val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)

@@ -56,16 +56,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     fun queryJikanSearchAndFilter(query: String, genreList: String, score: String, orderBy: String) {
         scope.launch {
-            animeRepo.saveBookmarkedAnime(
-                DatabaseAnime(
-                    1,
-                    "My Anime",
-                    true,
-                    "Friday the 13th",
-                    "https://noneyabusiness",
-                    System.currentTimeMillis()
-                )
-            )
+
             try {
                 val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score, orderBy).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
@@ -148,7 +139,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private fun List<DayItem?>?.toSearchItem(): List<SearchOnlyResultsItem?>? {
         return this?.map {
             SearchOnlyResultsItem(
-                null, it?.imageUrl, it?.malId, null, it?.title, null,
+                null, it?.imageUrl, it?.malId, it?.synopsis, it?.title, null,
                 null, null, null, null, true, null, it?.airingStart
             )
 

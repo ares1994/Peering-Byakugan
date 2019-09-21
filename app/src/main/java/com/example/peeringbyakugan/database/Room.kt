@@ -24,7 +24,7 @@ import androidx.room.*
 
 @Dao
 interface BookmarkAnimeDao {
-    @Query("select * from databaseanime")
+    @Query("select * from databaseanime ORDER BY timeAdded ASC")
     fun getAnime(): LiveData<List<DatabaseAnime>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

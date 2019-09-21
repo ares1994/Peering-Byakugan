@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="searchAnime" type="com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem"/>
-        <variable name="clickListener" type="com.example.peeringbyakugan.AnimeClickListener"/>
+        <variable name="bookmarkAnime" type="com.example.peeringbyakugan.database.DatabaseAnime"/>
+        <variable name="clickListener" type="com.example.peeringbyakugan.bookmark.BookmarkAnimeClickListener"/>
 
     </data>
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
@@ -12,7 +12,7 @@
                                        android:layout_margin="4dp"
                                        app:cardCornerRadius="8dp"
                                        app:cardElevation="8dp"
-                                       android:onClick="@{()-> clickListener.onClick(searchAnime)}">
+                                       android:onClick="@{()-> clickListener.onClick(bookmarkAnime)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                        android:id="@+id/animeImageView"
                        app:layout_constraintStart_toStartOf="parent"
                        app:layout_constraintEnd_toEndOf="parent"
-                       setAnimeImage="@{searchAnime}"
+                       setBookmarkAnimeImage="@{bookmarkAnime}"
                        app:layout_constraintTop_toTopOf="parent"
                        app:layout_constraintDimensionRatio="225:334"/>
 
@@ -34,7 +34,7 @@
                       tools:text="We the best"
                       android:textAppearance="?android:textAppearanceMedium"
                       android:id="@+id/animeTitle"
-                      setAnimeTitle="@{searchAnime}"
+                      setBookmarkAnimeTitle="@{bookmarkAnime}"
                       app:layout_constraintTop_toBottomOf="@id/animeImageView"
                       android:fontFamily="@font/roboto_italic"
                       android:textColor="#000"/>
@@ -48,7 +48,6 @@
                     android:text="@string/overflow"
                     android:textColor="@android:color/black"
                     android:padding="8dp"
-                    attachPopMenu="@{searchAnime}"
                     android:textAppearance="?android:textAppearanceMedium"/>
 
 
