@@ -67,7 +67,7 @@
     <string name="filters">filters</string>
     <string name="order_by">Order By</string>
 
-
+    <string name="channel_name">reminder channel</string>
     <string name="channel_description">reminder notifications</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="favourite">Favourite</string>

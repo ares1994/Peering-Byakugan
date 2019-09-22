@@ -27,6 +27,9 @@ interface BookmarkAnimeDao {
     @Query("select * from databaseanime ORDER BY timeAdded ASC")
     fun getAnime(): LiveData<List<DatabaseAnime>>
 
+    @Query("select * from databaseanime ORDER BY timeAdded ASC")
+     fun getAnimeListInstance(): List<DatabaseAnime>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg anime: DatabaseAnime)
 }

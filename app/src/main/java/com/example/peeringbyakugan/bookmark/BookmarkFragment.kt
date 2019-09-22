@@ -2,6 +2,7 @@ package com.example.peeringbyakugan.bookmark
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,11 @@ import com.example.peeringbyakugan.ByakuganApplication
 import com.example.peeringbyakugan.GenericViewModelFactory
 
 import com.example.peeringbyakugan.R
+import com.example.peeringbyakugan.Util
 import com.example.peeringbyakugan.databinding.FragmentBookmarkBinding
 import com.google.android.material.snackbar.Snackbar
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 class BookmarkFragment : Fragment() {
@@ -53,7 +57,7 @@ class BookmarkFragment : Fragment() {
 
         viewModel.animeRepo.animeList.observe(this, Observer {
             databaseAnimeAdapter.submitList(it)
-        })
+         })
 
 
 

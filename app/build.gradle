@@ -81,6 +81,6 @@ dependencies {
 
 
     // WorkManager
-    implementation "android.arch.work:work-runtime-ktx:1.0.1"
+    implementation "android.arch.work:work-runtime-ktx:1.0.0-alpha11"
 
 }

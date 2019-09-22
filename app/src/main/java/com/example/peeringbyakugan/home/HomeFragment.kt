@@ -4,7 +4,9 @@ package com.example.peeringbyakugan.home
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -23,15 +25,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.room.Database
 import com.example.peeringbyakugan.*
 import com.example.peeringbyakugan.Util.Companion.CHANNEL_ID
 import com.example.peeringbyakugan.Util.Companion.notificationId
+import com.example.peeringbyakugan.database.DatabaseAnime
+import com.example.peeringbyakugan.database.getDatabase
 import com.example.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header.view.*
+import kotlinx.coroutines.*
 
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
@@ -132,26 +138,11 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
             header.currentScoreTextView.text = it.toString()
         })
 
-        providesNotificationManager()
 
 
-        val builder = NotificationCompat.Builder(this.context!!, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_search_black_24dp)
-            .setContentTitle("My notification")
-            .setContentText("Much longer text that cannot fit one line...")
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText("Much longer text that cannot fit one line...")
-            )
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        binding.errorView.setOnClickListener {
-            with(NotificationManagerCompat.from(this.context!!)) {
-                // notificationId is a unique int for each notification that you must define
-                notify(notificationId, builder.build())
 
-            }
-        }
+
 
 
 
@@ -260,21 +251,51 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         (activity as AppCompatActivity).title = ""
     }
 
-    fun providesNotificationManager() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.not_applicable)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                this.activity!!.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
 
-    }
+
+
+
+//    val animeDao = getDatabase(this.context!!.applicationContext).animeDao
+//
+//    CoroutineScope(Dispatchers.Main + Job()).launch {
+//        var bookmarks: List<DatabaseAnime>? = null
+//        withContext(Dispatchers.IO){
+//            bookmarks = animeDao.getAnimeListInstance()
+//        }
+//        val todaysBookmarks = bookmarks?.filter {
+//            Util.getDay(it.airingStart) == "Friday"
+//        }
+//        var string = "Heyyy! Don't forget: \n"
+//        todaysBookmarks?.forEach {
+//            string += it.title + " at " + Util.getTime(it.airingStart)+"\n"
+//        }
+//        string += if (todaysBookmarks?.size == 1) "is airing today" else "are airing today"
+//
+//        val intent = Intent(this@HomeFragment.context, MainActivity::class.java)
+//
+//        val pendingIntent: PendingIntent = PendingIntent.getActivity(this@HomeFragment.context, 0, intent, 0)
+//
+//        val builder = NotificationCompat.Builder(this@HomeFragment.context!!, CHANNEL_ID)
+//            .setSmallIcon(R.drawable.ic_bookmark_black_24dp)
+//            .setContentTitle("Anime Reminders")
+//            .setContentText(string)
+//            .setStyle(
+//                NotificationCompat.BigTextStyle()
+//                    .bigText(string)
+//            )
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            .setContentIntent(pendingIntent)
+//            .setAutoCancel(true)
+//
+//        binding.errorView.setOnClickListener {
+//            with(NotificationManagerCompat.from(this@HomeFragment.context!!)) {
+//                // notificationId is a unique int for each notification that you must define
+//                notify(notificationId, builder.build())
+//
+//            }
+//        }
+//    }
+
 
 
 }
