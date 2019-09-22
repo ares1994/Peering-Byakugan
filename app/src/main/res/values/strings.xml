@@ -71,5 +71,6 @@
     <string name="channel_description">reminder notifications</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="favourite">Favourite</string>
+    <string name="character_about">About: \n\n%s</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.peeringbyakugan.work
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
@@ -27,6 +28,7 @@ class BookmarkNotificationWorker(appContext: Context, params: WorkerParameters) 
     override suspend fun doWork(): Payload {
         val animeDao = getDatabase(applicationContext).animeDao
 
+        Log.d("Ares", "Worker called ")
         return try {
             var bookmarks: List<DatabaseAnime>? = null
             withContext(Dispatchers.IO) {
@@ -35,14 +37,16 @@ class BookmarkNotificationWorker(appContext: Context, params: WorkerParameters) 
             val todaysBookmarks = bookmarks?.filter {
                 Util.getDay(it.airingStart) == Util.getDayFromLong(System.currentTimeMillis())
             }
+
             if (todaysBookmarks.isNullOrEmpty()) return Payload(Result.SUCCESS)
             var string = "Heyyy! Don't forget: \n"
-            todaysBookmarks.forEach {
+            todaysBookmarks?.forEach {
                 string += it.title + "\n"
             }
-            string += if (todaysBookmarks.size == 1) "is airing today" else "are airing today"
+            string += if (todaysBookmarks?.size == 1) "is airing today" else "are airing today"
 
             val intent = Intent(applicationContext, MainActivity::class.java)
+
 
             val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
 

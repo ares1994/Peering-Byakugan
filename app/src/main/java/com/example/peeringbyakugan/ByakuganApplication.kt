@@ -4,9 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
-import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.example.peeringbyakugan.daggerUtil.AppComponent
 import com.example.peeringbyakugan.daggerUtil.AppModule
@@ -26,7 +24,7 @@ class ByakuganApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        providesNotificationManager()
+        providesNotificationChannel()
         appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
         delayedInit()
 
@@ -49,17 +47,18 @@ class ByakuganApplication : Application() {
 
 
         val repeatingRequest
-                = PeriodicWorkRequestBuilder<BookmarkNotificationWorker>(1, TimeUnit.DAYS)
+                = PeriodicWorkRequestBuilder<BookmarkNotificationWorker>(1, TimeUnit.DAYS,23,TimeUnit.HOURS)
             .build()
+
 
         WorkManager.getInstance().enqueueUniquePeriodicWork(
             BookmarkNotificationWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.REPLACE,
             repeatingRequest)
 
     }
 
-    private fun providesNotificationManager() {
+    private fun providesNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_description)
