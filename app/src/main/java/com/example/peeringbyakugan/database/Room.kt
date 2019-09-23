@@ -21,14 +21,15 @@ import android.content.Context
 import android.provider.ContactsContract
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.peeringbyakugan.Util
 
 @Dao
 interface BookmarkAnimeDao {
-    @Query("select * from databaseanime ORDER BY timeAdded ASC")
-    fun getAnime(): LiveData<List<DatabaseAnime>>
+    @Query("select * from databaseanime WHERE dataType = :dataType ORDER BY timeAdded ASC")
+    fun getAnime(dataType: String): LiveData<List<DatabaseAnime>>
 
-    @Query("select * from databaseanime ORDER BY timeAdded ASC")
-     fun getAnimeListInstance(): List<DatabaseAnime>
+    @Query("select * from databaseanime WHERE dataType = :dataType ORDER BY timeAdded ASC")
+     fun getAnimeListInstance(dataType: String): List<DatabaseAnime>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg anime: DatabaseAnime)

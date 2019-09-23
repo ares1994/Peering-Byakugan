@@ -41,13 +41,23 @@ class BookmarkFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BookmarkViewModel::class.java)
 
-        databaseAnimeAdapter = BookmarkAnimeRecyclerAdapter(BookmarkAnimeClickListener { animeId, animeTitle ->
-            when {
-                viewModel.isInternetConnection() -> this.findNavController()
-                    .navigate(BookmarkFragmentDirections.actionBookmarkFragmentToDetailsFragment(animeId, animeTitle))
-                else -> Snackbar.make(binding.root, getString(R.string.error_internet), Snackbar.LENGTH_LONG).show()
-            }
-        })
+        databaseAnimeAdapter =
+            BookmarkAnimeRecyclerAdapter(BookmarkAnimeClickListener { animeId, animeTitle ->
+                when {
+                    viewModel.isInternetConnection() -> this.findNavController()
+                        .navigate(
+                            BookmarkFragmentDirections.actionBookmarkFragmentToDetailsFragment(
+                                animeId,
+                                animeTitle
+                            )
+                        )
+                    else -> Snackbar.make(
+                        binding.root,
+                        getString(R.string.error_internet),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            })
 
 
         binding.bookmarkRecyclerView.apply {
@@ -55,9 +65,9 @@ class BookmarkFragment : Fragment() {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
 
-        viewModel.animeRepo.animeList.observe(this, Observer {
+        viewModel.animeRepo.bookmarkAnimeList.observe(this, Observer {
             databaseAnimeAdapter.submitList(it)
-         })
+        })
 
 
 

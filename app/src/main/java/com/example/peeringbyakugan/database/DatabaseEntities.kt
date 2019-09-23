@@ -30,6 +30,7 @@ data class DatabaseAnime constructor(
         val airing: Boolean,
         val airingStart: String,
         val imageUrl: String,
+        val dataType : String,
         val timeAdded: Long)
 
 

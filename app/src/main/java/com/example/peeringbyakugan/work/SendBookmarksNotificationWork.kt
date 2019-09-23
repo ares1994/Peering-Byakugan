@@ -12,6 +12,7 @@ import com.example.peeringbyakugan.AnimeRepository
 import com.example.peeringbyakugan.MainActivity
 import com.example.peeringbyakugan.R
 import com.example.peeringbyakugan.Util
+import com.example.peeringbyakugan.Util.Companion.BOOKMARK_TYPE
 import com.example.peeringbyakugan.database.DatabaseAnime
 import com.example.peeringbyakugan.database.getDatabase
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,7 @@ class BookmarkNotificationWorker(appContext: Context, params: WorkerParameters) 
         return try {
             var bookmarks: List<DatabaseAnime>? = null
             withContext(Dispatchers.IO) {
-                bookmarks = animeDao.getAnimeListInstance()
+                bookmarks = animeDao.getAnimeListInstance(BOOKMARK_TYPE)
             }
             val todaysBookmarks = bookmarks?.filter {
                 Util.getDay(it.airingStart) == Util.getDayFromLong(System.currentTimeMillis())

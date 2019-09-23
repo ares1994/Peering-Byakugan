@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.peeringbyakugan.daggerUtil.AppComponent
 import com.example.peeringbyakugan.network.singleAnimeDataModels.SingleAnimeResponse
 import com.example.peeringbyakugan.network.Jikan
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,6 +26,8 @@ class DetailsViewModel(appComponent: AppComponent) : ViewModel() {
 
     @Inject
     lateinit var jikanIO: Jikan
+
+    @Inject lateinit var picasso: Picasso
 
     init {
         appComponent.inject(this)

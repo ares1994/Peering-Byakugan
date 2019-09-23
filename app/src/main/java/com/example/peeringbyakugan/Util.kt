@@ -1,5 +1,6 @@
 package com.example.peeringbyakugan
 
+import android.annotation.SuppressLint
 import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -11,6 +12,11 @@ class Util {
         const val CHANNEL_ID = "reminder_notification"
         const val notificationId = 100
 
+
+        const val FAVOURITE_TYPE = "favourites"
+        const val BOOKMARK_TYPE = "bookmarks"
+
+        @SuppressLint("SimpleDateFormat")
         fun getDay(date: String): String {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             val dateObject = inputFormat.parse(date.split("\\+".toRegex())[0])

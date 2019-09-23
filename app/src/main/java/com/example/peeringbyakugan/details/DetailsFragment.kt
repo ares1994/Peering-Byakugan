@@ -64,11 +64,15 @@ class DetailsFragment : Fragment() {
                 else {
                     getString(R.string.premier_date, it.premiered)
                 }
-            binding.ratingsTextView.text = if (it.score.toString().isNullOrBlank()) getString(R.string.ratings, getString(R.string.not_applicable))
+            binding.ratingsTextView.text = if (it.score.toString().isBlank()) getString(
+                R.string.ratings,
+                getString(R.string.not_applicable)
+            )
             else getString(R.string.ratings, it.score.toString())
 
             if (it.episodes.toString() == "null") {
-                binding.episodesTextView.text = getString(R.string.episodes, getString(R.string.not_applicable))
+                binding.episodesTextView.text =
+                    getString(R.string.episodes, getString(R.string.not_applicable))
             } else {
                 binding.episodesTextView.text = getString(R.string.episodes, it.episodes.toString())
             }
@@ -80,7 +84,7 @@ class DetailsFragment : Fragment() {
                 binding.youtubeWebView.visibility = View.INVISIBLE
                 binding.animeImageView.apply {
                     visibility = View.VISIBLE
-                    Picasso.get().load(it.imageUrl).into(this)
+                    viewModel.picasso.load(it.imageUrl).into(this)
                     binding.trailerLoadingProgressBar.visibility = View.INVISIBLE
                 }
             } else {
@@ -88,8 +92,11 @@ class DetailsFragment : Fragment() {
             }
 
             binding.synopsisTextView.text =
-                if (it.synopsis.isNullOrBlank()) getString(R.string.synopsis, getString(R.string.not_applicable))
-            else getString(R.string.synopsis, it.synopsis)
+                if (it.synopsis.isNullOrBlank()) getString(
+                    R.string.synopsis,
+                    getString(R.string.not_applicable)
+                )
+                else getString(R.string.synopsis, it.synopsis)
 
             (activity as AppCompatActivity).apply {
                 if (title.isNullOrBlank()) title = it.titleEnglish
@@ -113,7 +120,8 @@ class DetailsFragment : Fragment() {
         when (item.itemId) {
             R.id.action_characters -> {
                 val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
-                this.findNavController().navigate(DetailsFragmentDirections.Characters(args!!.animeId))
+                this.findNavController()
+                    .navigate(DetailsFragmentDirections.Characters(args!!.animeId))
                 return true
             }
         }

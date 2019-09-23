@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.peeringbyakugan.Util.Companion.BOOKMARK_TYPE
 import com.example.peeringbyakugan.database.DatabaseAnime
 import com.example.peeringbyakugan.database.getDatabase
 import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem
@@ -48,19 +49,17 @@ fun ImageView.setAnimeImage(anime: DatabaseAnime) {
 }
 
 
-
-
-
-
 @BindingAdapter("attachPopMenu")
 fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
-    val animeRepo: AnimeRepository? = AnimeRepository(getDatabase(this.context.applicationContext).animeDao)
+    val animeRepo: AnimeRepository? =
+        AnimeRepository(getDatabase(this.context.applicationContext).animeDao)
 
     anime.let { animeInstance ->
 
         animeInstance.apply {
             when {
-                airing == false && synopsis == null && startDate == null -> this@attachPopMenu.visibility = View.GONE
+                airing == false && synopsis == null && startDate == null -> this@attachPopMenu.visibility =
+                    View.GONE
             }
         }
 
@@ -78,8 +77,13 @@ fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
                         scope.launch {
                             animeRepo!!.saveBookmarkedAnime(
                                 DatabaseAnime(
-                                    animeInstance.malId!!, animeInstance.title!!, animeInstance.airing!!,
-                                    animeInstance.startDate!!, animeInstance.imageUrl!!, System.currentTimeMillis()
+                                    animeInstance.malId!!,
+                                    animeInstance.title!!,
+                                    animeInstance.airing!!,
+                                    animeInstance.startDate!!,
+                                    animeInstance.imageUrl!!,
+                                    BOOKMARK_TYPE,
+                                    System.currentTimeMillis()
                                 )
                             )
                         }
