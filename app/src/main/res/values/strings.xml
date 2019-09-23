@@ -72,5 +72,7 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="favourite">Favourite</string>
     <string name="character_about">About: \n\n%s</string>
+    <string name="nickname">Nickname(s): %s</string>
+    <string name="kanji">Kanji: %s</string>
 
 </resources>

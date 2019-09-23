@@ -40,10 +40,10 @@ class BookmarkNotificationWorker(appContext: Context, params: WorkerParameters) 
 
             if (todaysBookmarks.isNullOrEmpty()) return Payload(Result.SUCCESS)
             var string = "Heyyy! Don't forget: \n"
-            todaysBookmarks?.forEach {
+            todaysBookmarks.forEach {
                 string += it.title + "\n"
             }
-            string += if (todaysBookmarks?.size == 1) "is airing today" else "are airing today"
+            string += if (todaysBookmarks.size == 1) "is airing today" else "are airing today"
 
             val intent = Intent(applicationContext, MainActivity::class.java)
 

@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.room.Database
 import com.example.peeringbyakugan.*
@@ -40,7 +41,8 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 import kotlinx.coroutines.*
 
 
-class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
+class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
+    SeekBar.OnSeekBarChangeListener {
 
 
     private lateinit var viewModel: HomeViewModel
@@ -74,10 +76,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
 
 
         val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)
-        header.daySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.daysList)
+        header.daySpinner.adapter =
+            SpinnerAdapter(this.activity!!.application, HomeViewModel.daysList)
         header.daySpinner.onItemSelectedListener = this
         header.scoreSeekBar.setOnSeekBarChangeListener(this)
-        header.orderBySpinner.adapter = SpinnerAdapter(this.activity!!.application, HomeViewModel.orderList)
+        header.orderBySpinner.adapter =
+            SpinnerAdapter(this.activity!!.application, HomeViewModel.orderList)
 
 
 
@@ -100,6 +104,36 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         binding.animeListRecyclerView.apply {
             adapter = animeAdapter
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1)) {
+//                        Toast.makeText(
+//                            this@HomeFragment.context,
+//                            "End of recyclerView reached",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                        val genreList = checkChipGroup()
+                        val score = viewModel.seekBarValue.value.toString()
+                        val orderSelected =
+                            HomeViewModel.orderListBundle.getString(HomeViewModel.orderList[header.orderBySpinner.selectedItemPosition])
+
+
+                        if (viewModel.scheduleOrQuery.value!!) {
+                            binding.loadingMoreProgressBar.visibility = View.VISIBLE
+
+                            if (viewModel.page == viewModel.basePage){
+                                viewModel.queryJikanSearchAndFilter(
+                                    viewModel.currentQuery.value!!,
+                                    genreList,
+                                    score,
+                                    orderSelected!!
+                                )
+                            }
+                        }
+                    }
+                }
+            })
 
         }
 
@@ -113,15 +147,21 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         })
 
         viewModel.currentAnimeList.observe(this, Observer {
+            binding.loadingMoreProgressBar.visibility = View.GONE
             if (it.isNullOrEmpty()) {
+                binding.animeListRecyclerView.visibility = View.INVISIBLE
                 binding.errorView.visibility = View.VISIBLE
                 binding.errorTextView.text = getString(R.string.none_found_error_message)
             } else {
                 binding.errorView.visibility = View.INVISIBLE
+                binding.animeListRecyclerView.visibility = View.VISIBLE
+
             }
+            Log.d("HomeFragment", "New animeList received")
 
-
-            animeAdapter.submitList(it)
+            if (animeAdapter.currentList.isNullOrEmpty()) animeAdapter.submitList(it) else animeAdapter.submitList(
+                animeAdapter.currentList.plus(it)
+            )
             viewModel.progressBarInvisible()
         })
 
@@ -161,19 +201,31 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         searchView.queryHint = getString(R.string.search_query_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-
+                viewModel.page = 0
+                viewModel.basePage = 0
+                animeAdapter.submitList(null)
                 if (viewModel.isInternetConnection()) {
+                    viewModel.setCurrentQuery(query!!)
                     val genreList = checkChipGroup()
                     val score = viewModel.seekBarValue.value.toString()
                     val orderSelected =
                         HomeViewModel.orderListBundle.getString(HomeViewModel.orderList[header.orderBySpinner.selectedItemPosition])
                     if (query.isNullOrBlank() && genreList.isBlank() && score == "0.0" && orderSelected.isNullOrBlank()) {
-                        Snackbar.make(searchView, "Enter search and/or select genres", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(
+                            searchView,
+                            "Enter search and/or select genres",
+                            Snackbar.LENGTH_LONG
+                        ).show()
                         searchView.clearFocus()
                         return false
                     }
                     loadingMechanism()
-                    viewModel.queryJikanSearchAndFilter(query!!, genreList, score, orderSelected!!)
+                    viewModel.queryJikanSearchAndFilter(
+                        viewModel.currentQuery.value!!,
+                        genreList,
+                        score,
+                        orderSelected!!
+                    )
                     searchView.clearFocus()
                     header.scoreSeekBar.progress = 0
                     return true
@@ -225,6 +277,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         if (position == 0) return
         if (viewModel.isInternetConnection()) {
             loadingMechanism()
+            animeAdapter.submitList(null)
             viewModel.queryJikanSchedule("${parent?.adapter?.getItem(position)}")
         } else {
             internetErrorMechanism()
@@ -250,9 +303,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
         super.onResume()
         (activity as AppCompatActivity).title = ""
     }
-
-
-
 
 
 //    val animeDao = getDatabase(this.context!!.applicationContext).animeDao
@@ -295,7 +345,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener, SeekBar.OnS
 //            }
 //        }
 //    }
-
 
 
 }

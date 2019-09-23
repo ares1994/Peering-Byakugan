@@ -1,5 +1,6 @@
 package com.example.peeringbyakugan.network
 
+import com.example.peeringbyakugan.network.characterDetailDataModels.CharacterDetailsResponse
 import com.example.peeringbyakugan.network.charactersDataModels.CharactersResponse
 import com.example.peeringbyakugan.network.singleAnimeDataModels.SingleAnimeResponse
 import com.example.peeringbyakugan.network.scheduleDataModels.ScheduleResponse
@@ -18,7 +19,8 @@ interface Jikan {
         @Query("q") query: String,
         @Query("genre") genre: String,
         @Query("score") score: String,
-        @Query("order_by") orderBy : String
+        @Query("order_by") orderBy : String,
+        @Query("page") page: Int
     ): Deferred<SearchOnlyResponse>
 
 
@@ -37,6 +39,12 @@ interface Jikan {
     fun getScheduleAsync(
         @Path("day") day: String
     ): Deferred<ScheduleResponse>
+
+
+    @GET("character/{characterId}")
+    fun getCharacterDetailsAsync(
+        @Path("characterId") characterId : Int
+    ): Deferred<CharacterDetailsResponse>
 }
 
 

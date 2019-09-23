@@ -10,6 +10,7 @@ import com.example.peeringbyakugan.database.BookmarkAnimeDao
 import com.example.peeringbyakugan.database.getDatabase
 import com.example.peeringbyakugan.network.Jikan
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -71,6 +72,11 @@ class AppModule(private val application: ByakuganApplication) {
         return AnimeRepository(animeDao)
     }
 
+    @Provides
+    @Singleton
+    fun getPicasso(): Picasso{
+        return Picasso.get()
+    }
 
 
 

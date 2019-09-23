@@ -64,7 +64,8 @@ class DetailsFragment : Fragment() {
                 else {
                     getString(R.string.premier_date, it.premiered)
                 }
-            binding.ratingsTextView.text = getString(R.string.ratings, it.score.toString())
+            binding.ratingsTextView.text = if (it.score.toString().isNullOrBlank()) getString(R.string.ratings, getString(R.string.not_applicable))
+            else getString(R.string.ratings, it.score.toString())
 
             if (it.episodes.toString() == "null") {
                 binding.episodesTextView.text = getString(R.string.episodes, getString(R.string.not_applicable))
@@ -86,7 +87,9 @@ class DetailsFragment : Fragment() {
                 binding.youtubeWebView.loadUrl(it.trailerUrl)
             }
 
-            binding.synopsisTextView.text = getString(R.string.synopsis, it.synopsis)
+            binding.synopsisTextView.text =
+                if (it.synopsis.isNullOrBlank()) getString(R.string.synopsis, getString(R.string.not_applicable))
+            else getString(R.string.synopsis, it.synopsis)
 
             (activity as AppCompatActivity).apply {
                 if (title.isNullOrBlank()) title = it.titleEnglish

@@ -47,7 +47,7 @@ class ByakuganApplication : Application() {
 
 
         val repeatingRequest
-                = PeriodicWorkRequestBuilder<BookmarkNotificationWorker>(1, TimeUnit.DAYS,23,TimeUnit.HOURS)
+                = PeriodicWorkRequestBuilder<BookmarkNotificationWorker>(1, TimeUnit.DAYS,12,TimeUnit.HOURS)
             .build()
 
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.peeringbyakugan.AnimeClickListener
 import com.example.peeringbyakugan.AnimeRecyclerAdapter
@@ -43,8 +44,15 @@ class CharactersFragment : Fragment() {
 
 
         animeAdapter =
-            AnimeRecyclerAdapter(AnimeClickListener { animeId, animeTitle ->
-                Log.d("CharactersFragment", "Character Clicked is $animeTitle")
+            AnimeRecyclerAdapter(AnimeClickListener { characterId, characterName ->
+                Log.d("CharactersFragment", "Character Clicked is $characterName")
+                this.findNavController().navigate(
+                    CharactersFragmentDirections.actionCharactersFragmentToCharacterDetailsFragment(
+                        characterName,
+                        characterId
+                    )
+                )
+
             })
 
         binding.characterRecyclerView.apply {

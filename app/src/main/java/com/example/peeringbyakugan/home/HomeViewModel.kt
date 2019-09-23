@@ -24,7 +24,10 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private var scope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private val _currentAnimeList = MutableLiveData<List<SearchOnlyResultsItem>>()
-    val currentAnimeList: MutableLiveData<List<SearchOnlyResultsItem>> get() = _currentAnimeList
+    val currentAnimeList: LiveData<List<SearchOnlyResultsItem>> get() = _currentAnimeList
+
+    private val _scheduleOrQuery = MutableLiveData<Boolean>()
+    val scheduleOrQuery: LiveData<Boolean> get() = _scheduleOrQuery
 
     private val _animeRetrievalAttemptCompleted = MutableLiveData<Boolean>()
     val animeRetrievalAttemptCompleted: LiveData<Boolean> get() = _animeRetrievalAttemptCompleted
@@ -35,6 +38,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private val _seekBarValue = MutableLiveData<Float>()
     val seekBarValue: LiveData<Float> get() = _seekBarValue
 
+    private val _currentQuery = MutableLiveData<String>()
+    val currentQuery: LiveData<String> get() = _currentQuery
+
 
     @Inject
     lateinit var jikanIO: Jikan
@@ -44,6 +50,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     @Inject
     lateinit var animeRepo: AnimeRepository
+
+     var page = 0
+    var basePage = 0
 
 
     init {
@@ -56,11 +65,15 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     fun queryJikanSearchAndFilter(query: String, genreList: String, score: String, orderBy: String) {
         scope.launch {
-
+                _scheduleOrQuery.value = true
             try {
-                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score, orderBy).await()
+                page++
+                Log.d("HomeViewModel", "page = $page")
+                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score, orderBy,page).await()
+                Log.d("HomeViewModel", "getAnimeList called")
                 val list: List<SearchOnlyResultsItem?>? = response.results
                 _currentAnimeList.value = list as List<SearchOnlyResultsItem>?
+                basePage++
 
 //                Log.d("HomeViewModel", "The name of the first anime is ${list?.get(0)?.title}")
 //                Log.d("HomeViewModel", "And it's synopsis is: ${list?.get(0)?.synopsis}")
@@ -69,12 +82,15 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 Log.d("HomeViewModel", "${t.message}")
                 progressBarInvisible()
                 _animeRetrievalSuccessful.value = false
+                page--
+
             }
 
         }
     }
 
     fun queryJikanSchedule(day: String) {
+        _scheduleOrQuery.value = false
         scope.launch {
             try {
                 val response: ScheduleResponse = jikanIO.getScheduleAsync(day).await()
@@ -153,5 +169,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     }
 
+
+    fun setCurrentQuery(query: String){
+        _currentQuery.value = query
+    }
 
 }
