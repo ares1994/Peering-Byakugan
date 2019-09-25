@@ -204,6 +204,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.page = 0
                 viewModel.basePage = 0
+                val drawerLayout: DrawerLayout = (activity as MainActivity).findViewById(R.id.drawerLayout)
+                drawerLayout.closeDrawers()
 
                 if (viewModel.isInternetConnection()) {
                     viewModel.setCurrentQuery(query!!)

@@ -46,13 +46,14 @@ class CharactersFragment : Fragment() {
 
         animeAdapter =
             AnimeRecyclerAdapter(AnimeClickListener { characterId, characterName ->
-                Log.d("CharactersFragment", "Character Clicked is $characterName")
-                this.findNavController().navigate(
-                    CharactersFragmentDirections.actionCharactersFragmentToCharacterDetailsFragment(
-                        characterName,
-                        characterId
+                if (viewModel.isInternetConnection()) {
+                    this.findNavController().navigate(
+                        CharactersFragmentDirections.actionCharactersFragmentToCharacterDetailsFragment(
+                            characterName,
+                            characterId
+                        )
                     )
-                )
+                }
 
             })
 
@@ -64,6 +65,7 @@ class CharactersFragment : Fragment() {
         viewModel.queryJikanForAnimeCharacters(args!!.animeId)
 
         viewModel.currentAnimeCharacterList.observe(this, Observer {
+            binding.loadingProgressBar.visibility = View.INVISIBLE
             if (it == null) binding.errorView.visibility = View.VISIBLE
             animeAdapter.submitList(it)
         })

@@ -22,6 +22,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/loadingProgressBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <LinearLayout
                 android:id="@+id/errorView"
                 android:layout_width="0dp"
@@ -46,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/roboto_italic"
-                    android:text="@string/no_favourite_anime"
+                    android:text="@string/sorry_couldn_t_retrieve_characters"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black" />
 

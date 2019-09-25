@@ -1,5 +1,6 @@
 package com.example.peeringbyakugan.characters
 
+import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +26,8 @@ class CharactersViewModel(appComponent: AppComponent) : ViewModel() {
 
     @Inject
     lateinit var jikanIO: Jikan
+
+    @Inject lateinit var cm : ConnectivityManager
 
     init {
         appComponent.inject(this)
@@ -55,6 +58,13 @@ class CharactersViewModel(appComponent: AppComponent) : ViewModel() {
 
         }
 
+
+    }
+
+
+    fun isInternetConnection(): Boolean {
+
+        return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
 
     }
 

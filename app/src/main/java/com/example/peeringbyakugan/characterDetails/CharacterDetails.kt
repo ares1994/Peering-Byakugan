@@ -47,6 +47,12 @@ class CharacterDetails : Fragment() {
         viewModel.getCharacterDetails(args.characterId)
 
         viewModel.characterDetails.observe(this, Observer {
+            if (it == null) {
+                binding.characterImageView.visibility = View.INVISIBLE
+                binding.characterDetailsCardView.visibility = View.INVISIBLE
+                binding.errorView.visibility = View.VISIBLE
+                return@Observer
+            }
             binding.characterDetailsCardView.visibility = View.VISIBLE
             viewModel.picasso.apply {
                 load(it.imageUrl).into(binding.characterImageView, object : Callback {

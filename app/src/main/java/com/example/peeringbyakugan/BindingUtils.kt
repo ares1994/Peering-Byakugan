@@ -20,6 +20,8 @@ import kotlinx.coroutines.launch
 private val job = Job()
 private val scope = CoroutineScope(Dispatchers.Main + job)
 
+private var animeRepo: AnimeRepository? = null
+
 
 @BindingAdapter("setAnimeTitle")
 fun TextView.setAnimeTitle(anime: SearchOnlyResultsItem) {
@@ -51,7 +53,7 @@ fun ImageView.setAnimeImage(anime: DatabaseAnime) {
 
 @BindingAdapter("removeAnimePopMenu")
 fun TextView.removeAnimePopMenu(anime: DatabaseAnime) {
-    val animeRepo: AnimeRepository? =
+    animeRepo=
         AnimeRepository(getDatabase(this.context.applicationContext).animeDao)
     anime.let { animeInstance ->
 
@@ -80,7 +82,7 @@ fun TextView.removeAnimePopMenu(anime: DatabaseAnime) {
 
 @BindingAdapter("attachPopMenu")
 fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
-    val animeRepo: AnimeRepository? =
+    animeRepo =
         AnimeRepository(getDatabase(this.context.applicationContext).animeDao)
 
     anime.let { animeInstance ->

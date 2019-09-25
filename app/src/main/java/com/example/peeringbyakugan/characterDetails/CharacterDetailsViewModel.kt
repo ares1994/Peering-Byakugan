@@ -46,6 +46,7 @@ class CharacterDetailsViewModel(appComponent: AppComponent) : ViewModel() {
 
             } catch (t: Throwable) {
                 Log.d("CharacterDetailsVM", "${t.message}")
+                _characterDetails.value = null
             }
 
         }
