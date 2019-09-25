@@ -17,7 +17,10 @@ import com.example.peeringbyakugan.ByakuganApplication
 import com.example.peeringbyakugan.R
 import com.example.peeringbyakugan.databinding.FragmentDetailsBinding
 import com.example.peeringbyakugan.GenericViewModelFactory
+import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 
 class DetailsFragment : Fragment() {
@@ -55,6 +58,18 @@ class DetailsFragment : Fragment() {
 
         viewModel.currentAnime.observe(this, Observer {
 
+            if (it == null) {
+                binding.apply {
+                    youtubeWebView.visibility = View.INVISIBLE
+                    animeImageView.visibility = View.INVISIBLE
+                    trailerLoadingProgressBar.visibility = View.INVISIBLE
+                    synopsisCardView.visibility = View.INVISIBLE
+                    errorView.visibility = View.VISIBLE
+                    setMenuVisibility(false)
+                }
+                return@Observer
+            }
+
             binding.synopsisCardView.visibility = View.VISIBLE
             binding.premierDateTextView.text =
                 if (it.premiered.isNullOrBlank()) getString(
@@ -84,8 +99,21 @@ class DetailsFragment : Fragment() {
                 binding.youtubeWebView.visibility = View.INVISIBLE
                 binding.animeImageView.apply {
                     visibility = View.VISIBLE
-                    viewModel.picasso.load(it.imageUrl).into(this)
-                    binding.trailerLoadingProgressBar.visibility = View.INVISIBLE
+                    viewModel.picasso.load(it.imageUrl).into(this, object : Callback {
+                        override fun onSuccess() {
+                            binding.trailerLoadingProgressBar.visibility = View.GONE
+                        }
+
+                        override fun onError(e: Exception?) {
+                            binding.trailerLoadingProgressBar.visibility = View.GONE
+                            Snackbar.make(
+                                binding.root,
+                                "Failed to load Image",
+                                Snackbar.LENGTH_LONG
+                            )
+                                .show()
+                        }
+                    })
                 }
             } else {
                 binding.youtubeWebView.loadUrl(it.trailerUrl)
@@ -119,14 +147,19 @@ class DetailsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_characters -> {
-                val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
-                this.findNavController()
-                    .navigate(DetailsFragmentDirections.Characters(args!!.animeId))
+                if (viewModel.isInternetConnection()) {
+                    val args = arguments?.let { DetailsFragmentArgs.fromBundle(it) }
+                    this.findNavController()
+                        .navigate(DetailsFragmentDirections.Characters(args!!.animeId))
+                } else Snackbar.make(
+                    binding.root,
+                    getString(R.string.error_internet),
+                    Snackbar.LENGTH_LONG
+                ).show()
+
                 return true
             }
         }
-
-
 
         return super.onOptionsItemSelected(item)
     }

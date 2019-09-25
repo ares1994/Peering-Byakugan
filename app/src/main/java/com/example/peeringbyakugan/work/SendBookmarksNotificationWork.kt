@@ -8,7 +8,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.peeringbyakugan.AnimeRepository
 import com.example.peeringbyakugan.MainActivity
 import com.example.peeringbyakugan.R
 import com.example.peeringbyakugan.Util
@@ -53,7 +52,7 @@ class BookmarkNotificationWorker(appContext: Context, params: WorkerParameters) 
 
 
             val builder = NotificationCompat.Builder(applicationContext, Util.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_bookmark_black_24dp)
+                .setSmallIcon(R.drawable.ic_bookmark_24dp)
                 .setContentTitle("Anime Reminders")
                 .setContentText(string)
                 .setStyle(

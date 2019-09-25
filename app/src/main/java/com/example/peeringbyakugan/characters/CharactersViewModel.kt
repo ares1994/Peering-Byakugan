@@ -38,6 +38,7 @@ class CharactersViewModel(appComponent: AppComponent) : ViewModel() {
 
             } catch (t: Throwable) {
                 Log.d("CharactersViewModel", "${t.message}")
+                _currentAnimeCharacterList.value = null
 
             }
         }

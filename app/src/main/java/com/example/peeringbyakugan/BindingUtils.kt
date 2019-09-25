@@ -6,6 +6,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.example.peeringbyakugan.Util.Companion.BOOKMARK_TYPE
+import com.example.peeringbyakugan.Util.Companion.FAVOURITE_TYPE
 import com.example.peeringbyakugan.database.DatabaseAnime
 import com.example.peeringbyakugan.database.getDatabase
 import com.example.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem
@@ -45,6 +46,34 @@ fun TextView.setAnimeTitle(anime: DatabaseAnime) {
 fun ImageView.setAnimeImage(anime: DatabaseAnime) {
     anime.let {
         Picasso.get().load(anime.imageUrl).into(this)
+    }
+}
+
+@BindingAdapter("removeAnimePopMenu")
+fun TextView.removeAnimePopMenu(anime: DatabaseAnime) {
+    val animeRepo: AnimeRepository? =
+        AnimeRepository(getDatabase(this.context.applicationContext).animeDao)
+    anime.let { animeInstance ->
+
+
+        this.setOnClickListener {
+            val popupMenu = PopupMenu(it.context, it)
+            popupMenu.inflate(R.menu.remove_bookmarks_favourites_menu)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when {
+                    menuItem.itemId == R.id.action_remove -> {
+                        scope.launch {
+                            animeRepo!!.removeAnime(animeInstance)
+                        }
+                        return@setOnMenuItemClickListener true
+                    }
+                }
+
+                return@setOnMenuItemClickListener false
+            }
+            popupMenu.show()
+        }
     }
 }
 
@@ -91,6 +120,20 @@ fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
                         return@setOnMenuItemClickListener true
                     }
                     menuItem.itemId == R.id.action_favourite -> {
+                        scope.launch {
+                            animeRepo!!.saveFavouritedAnime(
+                                DatabaseAnime(
+                                    animeInstance.malId!!,
+                                    animeInstance.title!!,
+                                    animeInstance.airing!!,
+                                    animeInstance.startDate!!,
+                                    animeInstance.imageUrl!!,
+                                    FAVOURITE_TYPE,
+                                    System.currentTimeMillis()
+                                )
+                            )
+                        }
+
                         Snackbar.make(it, "Added to Favourites", Snackbar.LENGTH_LONG).show()
                         return@setOnMenuItemClickListener true
                     }

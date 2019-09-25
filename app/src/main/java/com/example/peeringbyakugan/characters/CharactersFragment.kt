@@ -40,7 +40,8 @@ class CharactersFragment : Fragment() {
 
         val viewModelFactory =
             GenericViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CharactersViewModel::class.java)
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(CharactersViewModel::class.java)
 
 
         animeAdapter =
@@ -63,6 +64,7 @@ class CharactersFragment : Fragment() {
         viewModel.queryJikanForAnimeCharacters(args!!.animeId)
 
         viewModel.currentAnimeCharacterList.observe(this, Observer {
+            if (it == null) binding.errorView.visibility = View.VISIBLE
             animeAdapter.submitList(it)
         })
 

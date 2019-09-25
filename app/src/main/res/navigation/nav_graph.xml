@@ -40,4 +40,11 @@
         <argument android:name="characterName" app:argType="string"/>
         <argument android:name="characterId" app:argType="integer"/>
     </fragment>
+    <fragment
+            android:id="@+id/favouritesFragment"
+            android:name="com.example.peeringbyakugan.favourites.FavouritesFragment" >
+        <action
+                android:id="@+id/action_favouritesFragment_to_detailsFragment"
+                app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

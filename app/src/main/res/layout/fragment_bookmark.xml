@@ -15,9 +15,38 @@
                                                    app:layout_constraintStart_toStartOf="parent"
                                                    app:layout_constraintEnd_toEndOf="parent"
                                                    app:layout_constraintTop_toTopOf="parent"
-                                                   app:layout_constraintBottom_toBottomOf="parent">
+                                                   app:layout_constraintBottom_toBottomOf="parent"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+                android:id="@+id/errorView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="16dp"
+                    android:src="@drawable/error" />
+
+            <TextView
+                    android:id="@+id/errorTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/roboto_italic"
+                    android:text="@string/your_bookmarks_are_empty"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

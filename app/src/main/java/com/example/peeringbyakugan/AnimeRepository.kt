@@ -20,7 +20,21 @@ class AnimeRepository (private val animeDao: BookmarkAnimeDao){
     suspend fun saveBookmarkedAnime(anime: DatabaseAnime){
         withContext(Dispatchers.IO){
             animeDao.insert(anime)
-            Log.d("Ares", "Anime Inserted")
+            Log.d("Ares", "Anime Bookmarked")
+        }
+    }
+
+    suspend fun saveFavouritedAnime(anime: DatabaseAnime){
+        withContext(Dispatchers.IO){
+            animeDao.insert(anime)
+            Log.d("Ares", "Anime saved in favourites")
+        }
+    }
+
+    suspend fun removeAnime(anime: DatabaseAnime){
+        withContext(Dispatchers.IO){
+            animeDao.delete(anime)
+            Log.d("Ares", "Anime deleted")
         }
     }
 }

@@ -67,6 +67,7 @@ class BookmarkFragment : Fragment() {
 
         viewModel.animeRepo.bookmarkAnimeList.observe(this, Observer {
             databaseAnimeAdapter.submitList(it)
+            if (it.isNullOrEmpty()) binding.errorView.visibility = View.VISIBLE else binding.errorView.visibility = View.INVISIBLE
         })
 
 

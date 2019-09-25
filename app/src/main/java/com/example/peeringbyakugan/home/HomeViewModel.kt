@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.peeringbyakugan.AnimeRepository
 import com.example.peeringbyakugan.daggerUtil.AppComponent
-import com.example.peeringbyakugan.database.DatabaseAnime
 import com.example.peeringbyakugan.network.*
 import com.example.peeringbyakugan.network.scheduleDataModels.DayItem
 import com.example.peeringbyakugan.network.scheduleDataModels.ScheduleResponse
@@ -41,6 +40,9 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     private val _currentQuery = MutableLiveData<String>()
     val currentQuery: LiveData<String> get() = _currentQuery
 
+    private val _resultsExhausted = MutableLiveData<Boolean>()
+    val resultsExhausted: LiveData<Boolean> get() = _resultsExhausted
+
 
     @Inject
     lateinit var jikanIO: Jikan
@@ -51,7 +53,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     @Inject
     lateinit var animeRepo: AnimeRepository
 
-     var page = 0
+    var page = 0
     var basePage = 0
 
 
@@ -63,20 +65,27 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     }
 
 
-    fun queryJikanSearchAndFilter(query: String, genreList: String, score: String, orderBy: String) {
+    fun queryJikanSearchAndFilter(
+        query: String,
+        genreList: String,
+        score: String,
+        orderBy: String
+    ) {
         scope.launch {
-                _scheduleOrQuery.value = true
+            _scheduleOrQuery.value = true
             try {
+
                 page++
-                Log.d("HomeViewModel", "page = $page")
-                val response: SearchOnlyResponse = jikanIO.getAnimeListAsync(query, genreList, score, orderBy,page).await()
-                Log.d("HomeViewModel", "getAnimeList called")
+                val response: SearchOnlyResponse =
+                    jikanIO.getAnimeListAsync(query, genreList, score, orderBy, page).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
+                if (page > response.lastPage!!) {
+                    _resultsExhausted.value = true
+                    page--
+                    return@launch
+                }
                 _currentAnimeList.value = list as List<SearchOnlyResultsItem>?
                 basePage++
-
-//                Log.d("HomeViewModel", "The name of the first anime is ${list?.get(0)?.title}")
-//                Log.d("HomeViewModel", "And it's synopsis is: ${list?.get(0)?.synopsis}")
 
             } catch (t: Throwable) {
                 Log.d("HomeViewModel", "${t.message}")
@@ -141,7 +150,16 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     companion object {
 
-        val daysList = listOf("None", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        val daysList = listOf(
+            "None",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        )
         val orderList = listOf("Title", "Start Date", "Rating", "No of Episodes")
         val orderListBundle = Bundle().apply {
             putString(orderList[0], "title")
@@ -170,8 +188,14 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
     }
 
 
-    fun setCurrentQuery(query: String){
+    fun setCurrentQuery(query: String) {
         _currentQuery.value = query
     }
+
+
+    fun resetResultsExhausted() {
+        _resultsExhausted.value = false
+    }
+
 
 }

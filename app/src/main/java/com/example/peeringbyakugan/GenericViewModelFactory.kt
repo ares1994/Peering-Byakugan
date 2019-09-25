@@ -7,8 +7,10 @@ import com.example.peeringbyakugan.characterDetails.CharacterDetailsViewModel
 import com.example.peeringbyakugan.characters.CharactersViewModel
 import com.example.peeringbyakugan.daggerUtil.AppComponent
 import com.example.peeringbyakugan.details.DetailsViewModel
+import com.example.peeringbyakugan.favourites.FavouritesViewModel
 import com.example.peeringbyakugan.home.HomeViewModel
 
+@Suppress("UNCHECKED_CAST")
 class GenericViewModelFactory(private val appComponent: AppComponent) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
@@ -23,6 +25,9 @@ class GenericViewModelFactory(private val appComponent: AppComponent) : ViewMode
                 appComponent
             ) as T
             modelClass.isAssignableFrom(CharacterDetailsViewModel::class.java) -> CharacterDetailsViewModel(
+                appComponent
+            ) as T
+            modelClass.isAssignableFrom(FavouritesViewModel::class.java) -> FavouritesViewModel(
                 appComponent
             ) as T
             else -> throw IllegalArgumentException("Unknown viewModel Class")

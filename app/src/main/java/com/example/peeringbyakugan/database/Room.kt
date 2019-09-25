@@ -29,7 +29,10 @@ interface BookmarkAnimeDao {
     fun getAnime(dataType: String): LiveData<List<DatabaseAnime>>
 
     @Query("select * from databaseanime WHERE dataType = :dataType ORDER BY timeAdded ASC")
-     fun getAnimeListInstance(dataType: String): List<DatabaseAnime>
+    fun getAnimeListInstance(dataType: String): List<DatabaseAnime>
+
+    @Delete
+    fun delete(anime: DatabaseAnime)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg anime: DatabaseAnime)
@@ -45,9 +48,11 @@ private lateinit var INSTANCE: AnimeDatabase
 fun getDatabase(context: Context): AnimeDatabase {
     synchronized(AnimeDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(context.applicationContext,
-                    AnimeDatabase::class.java,
-                    "anime").build()
+            INSTANCE = Room.databaseBuilder(
+                context.applicationContext,
+                AnimeDatabase::class.java,
+                "anime"
+            ).build()
         }
     }
     return INSTANCE

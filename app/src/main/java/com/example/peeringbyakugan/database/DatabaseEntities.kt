@@ -24,13 +24,14 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class DatabaseAnime constructor(
-        @PrimaryKey
         val malId: Int,
         val title: String,
         val airing: Boolean,
         val airingStart: String,
         val imageUrl: String,
         val dataType : String,
+
+        @PrimaryKey
         val timeAdded: Long)
 
 

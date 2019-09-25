@@ -1,5 +1,8 @@
+@file:Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+
 package com.example.peeringbyakugan.details
 
+import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +17,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 class DetailsViewModel(appComponent: AppComponent) : ViewModel() {
 
     private var viewModelJob = Job()
@@ -26,6 +30,8 @@ class DetailsViewModel(appComponent: AppComponent) : ViewModel() {
 
     @Inject
     lateinit var jikanIO: Jikan
+
+    @Inject lateinit var cm: ConnectivityManager
 
     @Inject lateinit var picasso: Picasso
 
@@ -42,10 +48,14 @@ class DetailsViewModel(appComponent: AppComponent) : ViewModel() {
                 _currentAnime.value = jikanIO.getAnimeAsync(animeId).await()
             } catch (t: Throwable) {
                 Log.d("DetailsViewModel", "${t.message}")
-
+                _currentAnime.value = null
             }
         }
+    }
 
+    fun isInternetConnection(): Boolean {
+
+        return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
 
     }
 }

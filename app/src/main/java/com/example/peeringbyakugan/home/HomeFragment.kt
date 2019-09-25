@@ -48,6 +48,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var animeAdapter: AnimeRecyclerAdapter
+    private val bundle: Bundle? = Bundle()
+    private var genreList: String = ""
 
 
     @SuppressLint("SetTextI18n")
@@ -55,11 +57,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-        Log.d("HomeFragment", "OnCreate called")
-
-
 
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
@@ -82,6 +79,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         header.scoreSeekBar.setOnSeekBarChangeListener(this)
         header.orderBySpinner.adapter =
             SpinnerAdapter(this.activity!!.application, HomeViewModel.orderList)
+
 
 
 
@@ -108,12 +106,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1)) {
-//                        Toast.makeText(
-//                            this@HomeFragment.context,
-//                            "End of recyclerView reached",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-                        val genreList = checkChipGroup()
+
                         val score = viewModel.seekBarValue.value.toString()
                         val orderSelected =
                             HomeViewModel.orderListBundle.getString(HomeViewModel.orderList[header.orderBySpinner.selectedItemPosition])
@@ -122,7 +115,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
                         if (viewModel.scheduleOrQuery.value!!) {
                             binding.loadingMoreProgressBar.visibility = View.VISIBLE
 
-                            if (viewModel.page == viewModel.basePage){
+                            if (viewModel.page == viewModel.basePage) {
                                 viewModel.queryJikanSearchAndFilter(
                                     viewModel.currentQuery.value!!,
                                     genreList,
@@ -148,7 +141,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
         viewModel.currentAnimeList.observe(this, Observer {
             binding.loadingMoreProgressBar.visibility = View.GONE
-            if (it.isNullOrEmpty()) {
+            if (it.isNullOrEmpty() && viewModel.page == 1) {
                 binding.animeListRecyclerView.visibility = View.INVISIBLE
                 binding.errorView.visibility = View.VISIBLE
                 binding.errorTextView.text = getString(R.string.none_found_error_message)
@@ -178,6 +171,14 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
             header.currentScoreTextView.text = it.toString()
         })
 
+        viewModel.resultsExhausted.observe(this, Observer {
+            if (it == true) {
+                binding.loadingMoreProgressBar.visibility = View.GONE
+                viewModel.resetResultsExhausted()
+            }
+
+        })
+
 
 
 
@@ -203,7 +204,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.page = 0
                 viewModel.basePage = 0
-                animeAdapter.submitList(null)
+
                 if (viewModel.isInternetConnection()) {
                     viewModel.setCurrentQuery(query!!)
                     val genreList = checkChipGroup()
@@ -227,9 +228,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
                         orderSelected!!
                     )
                     searchView.clearFocus()
-                    header.scoreSeekBar.progress = 0
+                    animeAdapter.submitList(animeAdapter.currentList.apply { clear() })
                     return true
                 }
+                animeAdapter.submitList(animeAdapter.currentList.apply { clear() })
                 internetErrorMechanism()
                 return true
 
@@ -255,7 +257,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
     }
 
     fun checkChipGroup(): String {
-        var genreList = ""
+        genreList = ""
         val chipNo = binding.filterChipGroup.childCount
         for (x in 1..chipNo) {
             val chip = binding.filterChipGroup.getChildAt(x - 1) as Chip
@@ -277,7 +279,9 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         if (position == 0) return
         if (viewModel.isInternetConnection()) {
             loadingMechanism()
-            animeAdapter.submitList(null)
+            val list = animeAdapter.currentList
+            list.clear()
+            animeAdapter.submitList(list)
             viewModel.queryJikanSchedule("${parent?.adapter?.getItem(position)}")
         } else {
             internetErrorMechanism()
@@ -302,49 +306,35 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).title = ""
+        Log.d("Ares", "onResume called")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)
+        bundle?.putInt("rating", header.scoreSeekBar.progress)
+        bundle?.putInt("orderBy", header.orderBySpinner.selectedItemPosition)
+        bundle?.putInt("pageNo", viewModel.basePage)
+        bundle?.putString("genreList", genreList)
+
+
     }
 
 
-//    val animeDao = getDatabase(this.context!!.applicationContext).animeDao
-//
-//    CoroutineScope(Dispatchers.Main + Job()).launch {
-//        var bookmarks: List<DatabaseAnime>? = null
-//        withContext(Dispatchers.IO){
-//            bookmarks = animeDao.getAnimeListInstance()
-//        }
-//        val todaysBookmarks = bookmarks?.filter {
-//            Util.getDay(it.airingStart) == "Friday"
-//        }
-//        var string = "Heyyy! Don't forget: \n"
-//        todaysBookmarks?.forEach {
-//            string += it.title + " at " + Util.getTime(it.airingStart)+"\n"
-//        }
-//        string += if (todaysBookmarks?.size == 1) "is airing today" else "are airing today"
-//
-//        val intent = Intent(this@HomeFragment.context, MainActivity::class.java)
-//
-//        val pendingIntent: PendingIntent = PendingIntent.getActivity(this@HomeFragment.context, 0, intent, 0)
-//
-//        val builder = NotificationCompat.Builder(this@HomeFragment.context!!, CHANNEL_ID)
-//            .setSmallIcon(R.drawable.ic_bookmark_black_24dp)
-//            .setContentTitle("Anime Reminders")
-//            .setContentText(string)
-//            .setStyle(
-//                NotificationCompat.BigTextStyle()
-//                    .bigText(string)
-//            )
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//            .setContentIntent(pendingIntent)
-//            .setAutoCancel(true)
-//
-//        binding.errorView.setOnClickListener {
-//            with(NotificationManagerCompat.from(this@HomeFragment.context!!)) {
-//                // notificationId is a unique int for each notification that you must define
-//                notify(notificationId, builder.build())
-//
-//            }
-//        }
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)
+        Log.d("Ares", "onViewCreated called")
+        if (!bundle!!.isEmpty) {
+            viewModel.basePage = bundle.getInt("pageNo", 0)
+            header.orderBySpinner.setSelection(bundle.getInt("orderBy", 0))
+            header.scoreSeekBar.progress = bundle.getInt("rating", 0)
+            genreList = bundle.getString("genreList", "")
+            Log.d("Ares", genreList)
+        }
+
+    }
 
 
 }
