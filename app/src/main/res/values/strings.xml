@@ -61,7 +61,7 @@
     <string name="overflow">⋮</string>
     <string name="bookmark">Bookmark</string>
     <string name="not_applicable">N/A</string>
-    <string name="insufficient_internet_error">Sorry, the internet connection\nseems to be a bit slow</string>
+    <string name="insufficient_internet_error">Sorry, the internet connection\n   seems to be a bit slow</string>
     <string name="minimum_score">Minimum rating</string>
     <string name="characters">Characters</string>
     <string name="filters">filters</string>
@@ -80,4 +80,8 @@
     <string name="your_bookmarks_are_empty">Your bookmarks are empty :|</string>
     <string name="sorry_this_anime_s_info_n_coulddn_t_be_retireved">Sorry, this anime\'s info\n  couldn\'t be retrieved</string>
     <string name="sorry_couldn_t_retrieve_characters">Sorry, couldn\'t retrieve characters</string>
+    <string name="about_statement">Peering Byakugan\n\n This app is designed to allow the total exploration of the animeverse.
+    It helps you keep up with the latest anime, bookmark them and receive notifications when a new episode is released.
+    You get to browse through the animeverse\-\-with a flurry of filters to fine tune your exploring needs\-\-exploring each anime thoroughly; accessing trailers, synopses and detailed descriptions of the characters.
+    \n\nP.S: With regards to the reminder notifications, All reminders for each anime will be accurate provided its air day has never been changed</string>
 </resources>

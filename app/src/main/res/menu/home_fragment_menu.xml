@@ -6,7 +6,7 @@
             android:icon="@drawable/ic_search_black_24dp"
             app:showAsAction="ifRoom"
             android:title="@string/action_search"
-            app:actionViewClass="com.example.peeringbyakugan.AnimeSearchView"
+            app:actionViewClass="com.arepadeobiri.peeringbyakugan.AnimeSearchView"
     />
 
 

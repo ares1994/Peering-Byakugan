@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="bookmarkAnime" type="com.example.peeringbyakugan.database.DatabaseAnime"/>
-        <variable name="clickListener" type="com.example.peeringbyakugan.bookmark.BookmarkAnimeClickListener"/>
+        <variable name="bookmarkAnime" type="com.arepadeobiri.peeringbyakugan.database.DatabaseAnime"/>
+        <variable name="clickListener" type="com.arepadeobiri.peeringbyakugan.bookmark.BookmarkAnimeClickListener"/>
 
     </data>
     <androidx.cardview.widget.CardView android:layout_width="match_parent"

@@ -54,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
                     android:fontFamily="@font/roboto_italic"
                     android:text="@string/sorry_couldn_t_retrieve_characters"
                     android:textAppearance="?android:textAppearanceMedium"

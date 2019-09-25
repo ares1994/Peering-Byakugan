@@ -14,5 +14,11 @@
             android:title="@string/favourites"
             app:showAsAction="ifRoom" />
 
+    <item
+            android:id="@+id/aboutFragment"
+            android:icon="@drawable/ic_android_black_24dp"
+            android:title="@string/about"
+            app:showAsAction="ifRoom" />
+
 
 </menu>
