@@ -78,7 +78,7 @@ class DetailsFragment : Fragment() {
                 else {
                     getString(R.string.premier_date, it.premiered)
                 }
-            binding.ratingsTextView.text = if (it.score.toString().isBlank()) getString(
+            binding.ratingsTextView.text = if (it.score.toString() == "null") getString(
                 R.string.ratings,
                 getString(R.string.not_applicable)
             )
