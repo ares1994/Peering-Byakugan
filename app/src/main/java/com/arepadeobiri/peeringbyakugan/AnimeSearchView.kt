@@ -8,13 +8,7 @@ import android.util.AttributeSet
 
 class AnimeSearchView : SearchView {
 
-    /*
-* Created by: Jens Klingenberg (jensklingenberg.de)
-*
-*
-*   //This SearchView gets triggered even when the query submit is empty
-*
-* */
+
 
     lateinit var mSearchSrcTextView: SearchAutoComplete
     internal var listener: OnQueryTextListener? = null

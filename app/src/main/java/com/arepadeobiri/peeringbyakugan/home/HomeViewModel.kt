@@ -72,6 +72,7 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
         orderBy: String
     ) {
         scope.launch {
+            Log.d("Ares", "Search query called")
             _scheduleOrQuery.value = true
             try {
 
@@ -79,8 +80,10 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
                 val response: SearchOnlyResponse =
                     jikanIO.getAnimeListAsync(query, genreList, score, orderBy, page).await()
                 val list: List<SearchOnlyResultsItem?>? = response.results
+                Log.d("Ares", "${list?.size}")
                 if (page > response.lastPage!!) {
                     _resultsExhausted.value = true
+                    Log.d("Ares", "method called")
                     page--
                     return@launch
                 }

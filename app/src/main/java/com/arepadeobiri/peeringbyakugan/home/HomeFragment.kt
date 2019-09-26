@@ -100,6 +100,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
                         if (viewModel.scheduleOrQuery.value!!) {
                             binding.loadingMoreProgressBar.visibility = View.VISIBLE
 
+                            Log.d(
+                                "Ares",
+                                "page= ${viewModel.page} and basePage = ${viewModel.basePage}"
+                            )
                             if (viewModel.page == viewModel.basePage) {
                                 viewModel.queryJikanSearchAndFilter(
                                     viewModel.currentQuery.value!!,
@@ -189,7 +193,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.page = 0
                 viewModel.basePage = 0
-                val drawerLayout: DrawerLayout = (activity as MainActivity).findViewById(R.id.drawerLayout)
+                val drawerLayout: DrawerLayout =
+                    (activity as MainActivity).findViewById(R.id.drawerLayout)
                 drawerLayout.closeDrawers()
 
                 if (viewModel.isInternetConnection()) {
@@ -253,6 +258,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
             }
         }
 
+
+
         return genreList
 
     }
@@ -304,8 +311,16 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         bundle?.putInt("orderBy", header.orderBySpinner.selectedItemPosition)
         bundle?.putInt("pageNo", viewModel.basePage)
         bundle?.putString("genreList", genreList)
-
-
+        val chipNo = binding.filterChipGroup.childCount
+        val list: MutableList<Int> = mutableListOf()
+        for (x in 1..chipNo) {
+            val chip = binding.filterChipGroup.getChildAt(x - 1) as Chip
+            if (chip.isChecked) {
+                Log.d("Ares", x.toString())
+                list.add(x)
+            }
+        }
+        bundle?.putIntArray("checkedChips", list.toIntArray())
     }
 
 
@@ -318,7 +333,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
             header.orderBySpinner.setSelection(bundle.getInt("orderBy", 0))
             header.scoreSeekBar.progress = bundle.getInt("rating", 0)
             genreList = bundle.getString("genreList", "")
-            Log.d("Ares", genreList)
+            val checkedList: IntArray? = bundle.getIntArray("checkedChips")
+            checkedList?.forEach {
+                val chip = binding.filterChipGroup.getChildAt(it - 1) as Chip
+                chip.isChecked = true
+
+            }
         }
 
     }
