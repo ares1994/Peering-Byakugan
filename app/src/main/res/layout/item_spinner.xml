@@ -13,7 +13,7 @@
                   app:layout_constraintTop_toTopOf="parent"
                   app:layout_constraintStart_toStartOf="parent"
                   android:padding="16dp"
-                  android:textColor="@color/normalTextColor"
+                  android:textColor="@color/spinnerTextColor"
                   android:textAppearance="?android:textAppearanceSmall"
                   app:layout_constraintEnd_toEndOf="parent"
                   tools:text="Monday"

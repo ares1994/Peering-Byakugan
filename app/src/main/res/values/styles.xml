@@ -7,7 +7,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/primaryTextColor</item>
         <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="actionOverflowButtonStyle">@style/overFlowButtonStyle</item>
+    </style>
+
+    <style name="overFlowButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">@color/primaryTextColor</item>
     </style>
 
 </resources>

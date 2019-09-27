@@ -79,6 +79,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         if (state) {
             header.nightModeSwitch.isChecked = state
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            
         } else {
             header.nightModeSwitch.isChecked = state
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

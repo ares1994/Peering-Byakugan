@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="normalTextColor">#ffffff</color>
     <color name="backgroundColor">#060204</color>
     <color name="colorAccent">#999</color>
