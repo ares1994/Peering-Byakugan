@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arepadeobiri.peeringbyakugan.AnimeRepository
 import com.arepadeobiri.peeringbyakugan.Util.Companion.BOOKMARK_TYPE
+import com.arepadeobiri.peeringbyakugan.Util.Companion.DATABASE_RESPONSE
 import com.arepadeobiri.peeringbyakugan.Util.Companion.FAVOURITE_TYPE
 import com.arepadeobiri.peeringbyakugan.daggerUtil.AppComponent
 import com.arepadeobiri.peeringbyakugan.database.DatabaseAnime
@@ -89,7 +90,7 @@ class DetailsViewModel(appComponent: AppComponent) : ViewModel() {
                     )
                 )
 
-                _currentResponse.value = pref.getString("response","")
+                _currentResponse.value = pref.getString(DATABASE_RESPONSE,"")
             }
 
         }

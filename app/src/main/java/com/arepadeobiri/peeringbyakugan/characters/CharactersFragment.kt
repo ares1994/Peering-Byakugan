@@ -1,6 +1,7 @@
 package com.arepadeobiri.peeringbyakugan.characters
 
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +43,13 @@ class CharactersFragment : Fragment() {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(CharactersViewModel::class.java)
 
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {binding.errorImageView.setImageResource(R.drawable.nightmode_error)}
+            Configuration.UI_MODE_NIGHT_NO -> {binding.errorImageView.setImageResource(R.drawable.error)}
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {binding.errorImageView.setImageResource(R.drawable.error)}
+        }
+
+
 
         animeAdapter =
             AnimeRecyclerAdapter(AnimeClickListener { characterId, characterName ->
@@ -68,6 +76,8 @@ class CharactersFragment : Fragment() {
             if (it == null) binding.errorView.visibility = View.VISIBLE
             animeAdapter.submitList(it)
         })
+
+
 
 
         return binding.root

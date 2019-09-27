@@ -1,6 +1,7 @@
 package com.arepadeobiri.peeringbyakugan.characterDetails
 
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -43,6 +44,19 @@ class CharacterDetails : Fragment() {
 
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(CharacterDetailsViewModel::class.java)
+
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                binding.errorImageView.setImageResource(R.drawable.nightmode_error)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                binding.errorImageView.setImageResource(R.drawable.error)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                binding.errorImageView.setImageResource(R.drawable.error)
+            }
+        }
+
 
         viewModel.getCharacterDetails(args.characterId)
 

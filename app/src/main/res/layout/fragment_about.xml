@@ -28,7 +28,7 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
                     android:padding="16dp"
-                    android:src="@drawable/error" />
+                    android:id="@+id/imageView" />
 
             <TextView
                     android:id="@+id/errorTextView"
@@ -39,7 +39,7 @@
                     android:text="@string/about_statement"
                     android:textAlignment="center"
                     android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/normalTextColor" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

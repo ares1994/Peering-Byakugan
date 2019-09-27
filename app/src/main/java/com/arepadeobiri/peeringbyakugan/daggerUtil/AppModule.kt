@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import com.arepadeobiri.peeringbyakugan.AnimeRepository
 import com.arepadeobiri.peeringbyakugan.ByakuganApplication
+import com.arepadeobiri.peeringbyakugan.Util.Companion.PREF_NAME
 import com.arepadeobiri.peeringbyakugan.database.AnimeDatabase
 import com.arepadeobiri.peeringbyakugan.database.BookmarkAnimeDao
 import com.arepadeobiri.peeringbyakugan.database.getDatabase
@@ -70,7 +71,7 @@ class AppModule(private val application: ByakuganApplication) {
     @Provides
     @Singleton
     fun getSharedPreferences(): SharedPreferences {
-        return application.getSharedPreferences("byakugan", Context.MODE_PRIVATE)
+        return application.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
     @Provides

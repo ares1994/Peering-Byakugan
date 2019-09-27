@@ -2,12 +2,14 @@ package com.arepadeobiri.peeringbyakugan.home
 
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -51,10 +53,17 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
-//        viewModel.animeRepo.animeList.observe(this, Observer {
-//            if (it.isNullOrEmpty()) return@Observer
-//            Toast.makeText(this.context, it[it.size-1].title, Toast.LENGTH_LONG).show()
-//        })
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                binding.errorImageView.setImageResource(R.drawable.nightmode_error)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                binding.errorImageView.setImageResource(R.drawable.error)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                binding.errorImageView.setImageResource(R.drawable.error)
+            }
+        }
 
 
         val header = ((activity as MainActivity).navView as NavigationView).getHeaderView(0)
@@ -65,6 +74,21 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         header.orderBySpinner.adapter =
             SpinnerAdapter(this.activity!!.application, HomeViewModel.orderList)
 
+        header.nightModeSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            Log.d("Ares", "listener called")
+            if (b) {
+                Snackbar.make(binding.root, "Yes", Snackbar.LENGTH_LONG).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+//              pref.edit().putBoolean(NIGHT_MODE_STATE, true).apply()
+            } else {
+                Snackbar.make(binding.root, "No", Snackbar.LENGTH_LONG).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                pref.edit().putBoolean(NIGHT_MODE_STATE, true).apply()
+            }
+        }
+
+        
 
 
 

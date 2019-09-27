@@ -1,7 +1,10 @@
 package com.arepadeobiri.peeringbyakugan
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -9,7 +12,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.arepadeobiri.peeringbyakugan.Util.Companion.NIGHT_MODE_STATE
+import com.arepadeobiri.peeringbyakugan.Util.Companion.PREF_NAME
 import com.arepadeobiri.peeringbyakugan.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -17,11 +25,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val binding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main)
         drawerLayout = binding.drawerLayout
         supportActionBar!!.elevation = 0f
 
+
+
+
+//        if (true) {
+////            header.nightModeSwitch.isChecked = true
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//        } else {
+////            header.nightModeSwitch.isChecked = false
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        }
+//
+
+
+
+
+
+
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
 
 
 

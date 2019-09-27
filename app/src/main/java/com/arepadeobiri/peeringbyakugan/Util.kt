@@ -14,6 +14,12 @@ class Util {
         const val FAVOURITE_TYPE = "favourites"
         const val BOOKMARK_TYPE = "bookmarks"
 
+        const val PREF_NAME = "byakugan"
+
+        const val DATABASE_RESPONSE = "response"
+
+        const val NIGHT_MODE_STATE = "nightMode"
+
         @SuppressLint("SimpleDateFormat")
         fun getDay(date: String): String {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")

@@ -37,7 +37,7 @@
                       setBookmarkAnimeTitle="@{bookmarkAnime}"
                       app:layout_constraintTop_toBottomOf="@id/animeImageView"
                       android:fontFamily="@font/roboto_italic"
-                      android:textColor="#000"/>
+                      android:textColor="@color/normalTextColor"/>
 
             <TextView
                     android:id="@+id/overFlowOptions"
@@ -46,7 +46,7 @@
                     app:layout_constraintTop_toBottomOf="@id/animeImageView"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:text="@string/overflow"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/normalTextColor"
                     removeAnimePopMenu="@{bookmarkAnime}"
                     android:padding="8dp"
                     android:textAppearance="?android:textAppearanceMedium"/>

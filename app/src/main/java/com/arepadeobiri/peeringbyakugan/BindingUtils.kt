@@ -8,7 +8,9 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.arepadeobiri.peeringbyakugan.Util.Companion.BOOKMARK_TYPE
+import com.arepadeobiri.peeringbyakugan.Util.Companion.DATABASE_RESPONSE
 import com.arepadeobiri.peeringbyakugan.Util.Companion.FAVOURITE_TYPE
+import com.arepadeobiri.peeringbyakugan.Util.Companion.PREF_NAME
 import com.arepadeobiri.peeringbyakugan.database.DatabaseAnime
 import com.arepadeobiri.peeringbyakugan.database.getDatabase
 import com.arepadeobiri.peeringbyakugan.network.searchDataModels.SearchOnlyResultsItem
@@ -57,7 +59,7 @@ fun ImageView.setAnimeImage(anime: DatabaseAnime) {
 
 @BindingAdapter("removeAnimePopMenu")
 fun TextView.removeAnimePopMenu(anime: DatabaseAnime) {
-    pref = this.context.applicationContext.getSharedPreferences("byakugan", Context.MODE_PRIVATE)
+    pref = this.context.applicationContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     animeRepo =
         AnimeRepository(getDatabase(this.context.applicationContext).animeDao, pref!!)
     anime.let { animeInstance ->
@@ -87,7 +89,7 @@ fun TextView.removeAnimePopMenu(anime: DatabaseAnime) {
 
 @BindingAdapter("attachPopMenu")
 fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
-    pref = this.context.applicationContext.getSharedPreferences("byakugan", Context.MODE_PRIVATE)
+    pref = this.context.applicationContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     animeRepo =
         AnimeRepository(getDatabase(this.context.applicationContext).animeDao, pref!!)
 
@@ -126,7 +128,7 @@ fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
                             )
                             Snackbar.make(
                                 it,
-                                pref!!.getString("response", "").toString(),
+                                pref!!.getString(DATABASE_RESPONSE, "").toString(),
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
@@ -147,7 +149,7 @@ fun TextView.attachPopMenu(anime: SearchOnlyResultsItem) {
                             )
                             Snackbar.make(
                                 it,
-                                pref!!.getString("response", "").toString(),
+                                pref!!.getString(DATABASE_RESPONSE, "").toString(),
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }

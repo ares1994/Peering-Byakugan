@@ -2,6 +2,7 @@ package com.arepadeobiri.peeringbyakugan.details
 
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -46,6 +47,13 @@ class DetailsFragment : Fragment() {
         val viewModelFactory =
             GenericViewModelFactory(((this.activity!!.application) as ByakuganApplication).getAppComponent())
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailsViewModel::class.java)
+
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {binding.errorImageView.setImageResource(R.drawable.nightmode_error)}
+            Configuration.UI_MODE_NIGHT_NO -> {binding.errorImageView.setImageResource(R.drawable.error)}
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {binding.errorImageView.setImageResource(R.drawable.error)}
+        }
+
 
         viewModel.queryJikanForAnime(args!!.animeId)
 

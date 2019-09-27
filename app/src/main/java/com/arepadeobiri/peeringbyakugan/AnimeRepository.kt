@@ -3,6 +3,7 @@ package com.arepadeobiri.peeringbyakugan
 import android.content.SharedPreferences
 import android.util.Log
 import com.arepadeobiri.peeringbyakugan.Util.Companion.BOOKMARK_TYPE
+import com.arepadeobiri.peeringbyakugan.Util.Companion.DATABASE_RESPONSE
 import com.arepadeobiri.peeringbyakugan.Util.Companion.FAVOURITE_TYPE
 import com.arepadeobiri.peeringbyakugan.database.BookmarkAnimeDao
 import com.arepadeobiri.peeringbyakugan.database.DatabaseAnime
@@ -25,9 +26,9 @@ class AnimeRepository (private val animeDao: BookmarkAnimeDao, private val pref:
             val retrieved : DatabaseAnime? = animeDao.getSpecificAnime(anime.dataType, anime.malId)
             if(retrieved == null){
                 animeDao.insert(anime)
-                pref.edit().putString("response","Saved to ${anime.dataType}").apply()
+                pref.edit().putString(DATABASE_RESPONSE,"Saved to ${anime.dataType}").apply()
             } else{
-                pref.edit().putString("response", "Already in ${anime.dataType}").apply()
+                pref.edit().putString(DATABASE_RESPONSE, "Already in ${anime.dataType}").apply()
             }
         }
     }
