@@ -1,5 +1,6 @@
 package com.arepadeobiri.peeringbyakugan.home
 
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +53,8 @@ class HomeViewModel(appComponent: AppComponent) : ViewModel() {
 
     @Inject
     lateinit var animeRepo: AnimeRepository
+
+    @Inject lateinit var pref: SharedPreferences
 
     var page = 0
     var basePage = 0

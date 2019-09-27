@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arepadeobiri.peeringbyakugan.*
+import com.arepadeobiri.peeringbyakugan.Util.Companion.NIGHT_MODE_STATE
 import com.arepadeobiri.peeringbyakugan.databinding.FragmentHomeBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.navigation.NavigationView
@@ -74,21 +75,30 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener,
         header.orderBySpinner.adapter =
             SpinnerAdapter(this.activity!!.application, HomeViewModel.orderList)
 
+        val state = viewModel.pref.getBoolean(NIGHT_MODE_STATE, false)
+        if (state) {
+            header.nightModeSwitch.isChecked = state
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            header.nightModeSwitch.isChecked = state
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         header.nightModeSwitch.setOnCheckedChangeListener { compoundButton, b ->
             Log.d("Ares", "listener called")
             if (b) {
-                Snackbar.make(binding.root, "Yes", Snackbar.LENGTH_LONG).show()
+
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-//              pref.edit().putBoolean(NIGHT_MODE_STATE, true).apply()
+                viewModel.pref.edit().putBoolean(NIGHT_MODE_STATE, true).apply()
             } else {
-                Snackbar.make(binding.root, "No", Snackbar.LENGTH_LONG).show()
+
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                pref.edit().putBoolean(NIGHT_MODE_STATE, true).apply()
+                viewModel.pref.edit().putBoolean(NIGHT_MODE_STATE, false).apply()
             }
         }
 
-        
+
 
 
 
