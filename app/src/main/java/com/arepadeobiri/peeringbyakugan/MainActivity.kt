@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
         drawerLayout = binding.drawerLayout
-        supportActionBar!!.elevation = 0f
+        setSupportActionBar(binding.toolbar)
 
 
 
